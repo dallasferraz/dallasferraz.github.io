@@ -839,16 +839,17 @@ p2 + scale_fill_manual(values=c(&quot;#999999&quot;,&quot;#E69F00&quot;))</code>
 p + facet_grid(sex ~.) + geom_vline(data=mu,aes(xintercept=grp.mean,
                                                 color=&quot;red&quot;,linetype=&quot;dashed&quot;))</code></pre>
 <p><img src="Rbasics_files/figure-html/unnamed-chunk-35-6.png" width="672" /></p>
-<p>Criaremos um objeto, <code>dat</code>, contendo a curva de densidade dos pesos das pessoas, para plotar a área abaixo de uma certa região da curva:</p>
-<pre class="r"><code>#curva de densidade dos pesos das pessoas
-dat &lt;- with(density(populacao$weight), data.frame(x, y))
-
-#plotando área abaixo da curva (x entre 65 e70)
-ggplot(data = dat, mapping = aes(x = x, y = y)) +
-  geom_line()+
-  geom_area(mapping = aes(x = ifelse(x&gt;65 &amp; x&lt; 70 , x, 0)), fill = &quot;red&quot;) +
-  xlim(30, 80)</code></pre>
-<p><img src="Rbasics_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Teste 1</p>
+</div>
+</div>
+<div id="teste-2" class="section level1">
+<h1>Teste 2</h1>
+<div id="teste-3" class="section level2">
+<h2>Teste 3</h2>
+<p>Teste 4</p>
+<div id="teste-5" class="section level3">
+<h3>Teste 5</h3>
+</div>
 </div>
 </div>
 

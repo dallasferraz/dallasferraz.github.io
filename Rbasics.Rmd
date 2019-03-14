@@ -440,15 +440,12 @@ p + facet_grid(sex ~.) + geom_vline(data=mu,aes(xintercept=grp.mean,
                                                 color="red",linetype="dashed"))
 ```
 
-Criaremos um objeto, `dat`, contendo a curva de densidade dos pesos das pessoas, para plotar a área abaixo de uma certa região da curva:
+Teste 1
 
-```{r message=FALSE, warning=FALSE}
-#curva de densidade dos pesos das pessoas
-dat <- with(density(populacao$weight), data.frame(x, y))
+# Teste 2
 
-#plotando área abaixo da curva (x entre 65 e70)
-ggplot(data = dat, mapping = aes(x = x, y = y)) +
-  geom_line()+
-  geom_area(mapping = aes(x = ifelse(x>65 & x< 70 , x, 0)), fill = "red") +
-  xlim(30, 80)
-```
+##Teste 3
+
+Teste 4
+
+### Teste 5
