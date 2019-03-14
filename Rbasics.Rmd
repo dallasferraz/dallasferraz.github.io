@@ -34,14 +34,14 @@ summary(trees)
 ```
 A coluna `Girth` informa o calibre de um tronco, enquanto que `Height`apresenta a altura da árvore. Por fim, `Volume` informa, provavelmente em metros cúbicos, a capacidade tridimensional de ocupação da madeira daquela árvore. Apresentaremos agora a representação do dataframe `trees` em forma de histograma:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #histograma da altura das ?rvores com 10 caixinhas de intervalo
 histograma <- hist(trees$Height,breaks=10)
 ```
 
 Esta visualização é muito simplificada e pode ser melhorada. Por exemplo, os componentes do histograma poderiam ser azuis e vazados, e os eixos poderiam trazer alguma informação significativa acerca das dimensões examinadas. Também é possível, como visto abaixo, criar um título para o gráfico:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #complementando a estética do histograma anterior
 plot(histograma,col="blue",density=40,
      main="Árvores", ylab="Frequência",xlab="Altura")
@@ -51,7 +51,7 @@ plot(histograma,col="blue",density=40,
 
 Ainda tomando como base o exemplo anterior, é possível que se deseje conhecer a curva que descreve a distribuição de densidade das alturas das árvores no dataset. Isso é possível através da função `density()`.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #densidade das alturas, representadas por uma linha azul
 densidade <- density(trees$Height)
 plot(densidade,col="blue")
@@ -61,7 +61,7 @@ plot(densidade,col="blue")
 
 Em uma situação em que seja necessário se comparar mais de uma representação, o recurso de sobreposição é indispensável. Tomemos como exemplo o caso anterior, que foi representado tanto em um gráfico de histograma quanto por um gráfico de densidade. Em R, é possível sobrepor as duas exibições utilizando a função `par()`.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #sobreposição das informações (histograma como primeira camada)
 plot(histograma,col="red",density=40,
      main="Árvores", ylab="Frequência",xlab="Altura")
@@ -76,7 +76,7 @@ plot(densidade,col="blue",xaxt='n',yaxt='n',ann=FALSE)
 
 O gráfico de pontos, ou dispersão, pode ser usado para melhor representar as observações em duas dimensões. Esse recurso permite enxergar possíveis tendências, correlações e a sua magnitude. No R, a função `plot()` pode exercer nativamente esse papel, juntamente com alguns argumentos extras:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #gráfico de dispersão do calibre das árvores versus volume
 plot(trees$Girth,trees$Volume,
      main="Árvores",ylab="circunferência",xlab="volume",col="blue",
@@ -85,7 +85,7 @@ plot(trees$Girth,trees$Volume,
 
 Para uma visão geral do dataset `trees`, o gráfico de dispersão também é muito útil, pois é possível enxergar a correlação de todas as variáveis com elas mesmas, em um grid amplo, utilizando a função `plot()` sem nenhum argumento, além do dataset em questão:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #plotando todas as correlações de todas as variáveis de uma só vez
 plot(trees)
 
@@ -93,7 +93,7 @@ plot(trees)
 
 Também é possível dividir a tela em quantos espaços forem necessários, para uma exibição de diferentes tipos de gráficos:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #dividindo a tela para os gráficos que lhe interessam (nesse caso, dois)
 split.screen(figs=c(1,2))
 
@@ -110,7 +110,7 @@ plot(densidade)
 
 Uma outra representação de dados agregados muito utilizada é o boxplot. Com ele, é possível visualizar não apenas a distribuição dos dados, mas também a tendência de centralidade e a existência ou não de outliers no dataset.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #boxplot com visualizaÇão geral mais amigável de todo o conteúdo
 boxplot(trees,horizontal=TRUE)
 ```
@@ -143,7 +143,7 @@ box()
 
 Também conhecido informalmente como "gráfico de pizza", pode ser facilmente plotado em R através da seguinte função, juntamente com uma legenda:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #gráfico de setores (usando os dados agregados)
 pie(hab$quantidade,main="Cidades",col=c(4:6),labels=NA)
 
@@ -185,7 +185,7 @@ summary(iris)
 
 O `ggplot2` funciona com a adição de funções responsáveis pelas camadas. Exibiremos agora informações simples sobre o tamanho das sépalas das flores em histograma.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #visualizando os dados das flores em 10 bins vermelhos
 ggplot(data=iris,aes(x=Sepal.Length)) +
 geom_histogram(color="black",fill="red",bins=10)
@@ -195,7 +195,7 @@ A função `ggplot()` indica ao R qual o dataset utilizado e qual trecho do data
 
 Contudo, se houvesse a necessidade de se colorir cada um dos bins de acordo com a proporção da quantidade de espécies em cada m deles, as especificações podem ser ajustadas dentro da função `aes()`, dentro de `ggplot()`.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 ggplot(data=iris,aes(x=Sepal.Length,color=Species,fill=Species)) +
 geom_histogram(color="black",bins=10)
 ```
@@ -204,7 +204,7 @@ geom_histogram(color="black",bins=10)
 
 Também é possível visualizar a distribuição de densidade dos dados através da função `geom_density()`. No exemplo seguinte, continuaremos a observar a distribuição de densidade do tamanho das sépalas, porém em uma distribuição de densidade por espécies, em curvas de contorno preto e preenchimento de 70% das cores relacionadas às espécies. Também é possível editar as legendas e os títulos do gráfico, com a função `labs()`:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 ggplot(data=iris,aes(x=Sepal.Length,color=Species,fill=Species)) +
 geom_density(color="black", alpha = 0.7) +
 labs(title="Curva de densidade",x="Tamanho das sépalas",y="Densidade")
@@ -225,7 +225,7 @@ summary(mpg)
 
 Os argumentos dessa função para exibição de gráfico de barras fazem referência ao tipo de estatística exibida (que será tratado mais adiante) e ao contorno das barras. A função `coord_flip()` rotaciona em 90 graus a exibição das barras, para o eixo horizontal.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #gráfico de barras para MPG
 ggplot(data=mpg,aes(x=class,color=class,fill=class)) + 
 geom_bar(color="black") + coord_flip()
@@ -254,7 +254,7 @@ df
 
 A partir desse ponto, é possível exibir os dados anteriores em um gráfico. O dataset será o `df`, no eixo X será exibido `class` e no eixo Y `mean`. As cores serão ajustadas de acordo com as classes de carro, tal como o preenchimento. A partir disso, os argumentos da função `geom_bar()` dizem respeito à natureza estatística da exibição e da cor do contorno das barras. Também será adicionado uma função para o título do eixo X e outra para o eixo Y. Por fim, a função `geom_text()` será responsável pelo ajuste estético da quantidade de casas decimais exibidas, da altura dos valores dentro de cada barra, da cor do texto, exibição de negrito e tamanho da fonte.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #exibindo a etapa anterior em gráfico
 ggplot(data=df,aes(x=class,y=mean,color=class,fill=class)) +
 geom_bar(stat="identity",color="black") + xlab("classe") + ylab("media") +
@@ -264,7 +264,7 @@ geom_text(aes(label=sprintf("%0.2f",round(mean,digits=2))),
 
 Também é possível exibir o gráfico de barras empilhado ou lado a lado por classes.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #exibindo gráfico de barras empilhados por classe, pelo tipo de tração
 ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
 geom_bar(stat="identity")
@@ -288,7 +288,7 @@ summary(mtcars)
 
 Exibindo a variável de fatores `cyl` no eixo X e a variável `disp` no eixo Y, com coloração para cada uma das classes de cilindradas, temos:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #boxplot das cilindradas dos carros
 mtcars$cyl = factor(mtcars$cyl)
 ggplot(data=mtcars, aes(x=cyl, y=disp,fill=cyl)) + geom_boxplot() +
@@ -300,7 +300,7 @@ xlab("cilindradas") + ylab("disponibilidade")
 
 Utilizaremos a base de dados `iris` para a exibição do gráfico de pontos. Este tipo de gráfico é mais utilizado quando há uma quantidade consideravelmente grande de dados e deseja-se saber se há uma correlação (e sua intensidade) entre as variáveis. No pacote `ggplot`, os gráficos de pontos estão disponíveis através da função `geom_point()`.
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #gráfico de pontos da tamanho da sépala (eixo x) pela largura da sépala (eixo y)
 ggplot(data=iris,aes(x=Sepal.Length,y=Sepal.Width,shape=Species,color=Species)) +
 geom_point() + xlab("Altura") + ylab("Largura")
@@ -308,7 +308,7 @@ geom_point() + xlab("Altura") + ylab("Largura")
 
 Para o dataset de carros:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #gráfico de pontos de uma parte específica dos carros das cilindradas
 ggplot(data=subset(mtcars,am==0),aes(x=mpg,y=disp,color=cyl)) + geom_point()
 
@@ -316,7 +316,7 @@ ggplot(data=subset(mtcars,am==0),aes(x=mpg,y=disp,color=cyl)) + geom_point()
 
 Também é possível armazenar uma parte do plot em uma lista e criar variações sobre ela. Como exemplo, o gráfico de pontos com curva suavizada no dataset de carros, dentro da lista `grafico`:
 
-```{r message=FALSE, fig.asp=0.62}
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 #gráfico de pontos suavizado e com linha de acompanhamento dos cavalo-vapor
 grafico <- ggplot(data = mtcars, aes(x = mpg,y = disp, color = hp))  + geom_point(size=2.5)  +
 geom_smooth() + geom_line(aes(y=hp))
@@ -360,7 +360,7 @@ scale_color_continuous( breaks = seq(50,350,75))
 
 Faceting é o recurso de apresentar diversos gráficos em uma única observação. Para a demonstração do próximo faceting, exibiremos o seguinte:
 
-```{r, fig.asp=0.62}
+```{r, fig.asp=0.62,fig.keep = 'last'}
 #criando vários gráficos para cada elemento único de carb
 ggplot(data=mtcars,aes(x=mpg,y=disp)) + geom_point() + facet_wrap(~carb)
 
@@ -401,7 +401,7 @@ mu
 
 Criando um gráfico de densidade básico e armazenando em `p`:
 
-```{r message=FALSE, fig.asp=0.62}
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 p <- ggplot(populacao, aes(x=weight)) + geom_area(stat = "bin") +
   geom_area(aes(y = ..density..), stat = "bin") +
   geom_area(stat = "bin", fill = "lightblue")
@@ -412,7 +412,7 @@ p + geom_vline(aes(xintercept=mean(weight)),
 
 Fazendo variações:
 
-```{r message=FALSE, fig.asp=0.62}
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 #mudando tipos e cores de linhas
 p + geom_area(stat="bin",color="darkblue",fill="lightblue") + geom_vline(aes(xintercept=mean(weight)),
              color="blue", linetype="dashed", size=1)
@@ -440,7 +440,7 @@ p + facet_grid(sex ~.) + geom_vline(data=mu,aes(xintercept=grp.mean,
 
 Criaremos um objeto, `dat`, contendo a curva de densidade dos pesos das pessoas, para plotar a área abaixo de uma certa região da curva:
 
-```{r message=FALSE, warning=FALSE, fig.asp=0.62}
+```{r message=FALSE, warning=FALSE, fig.asp=0.62,fig.keep = 'last'}
 #curva de densidade dos pesos das pessoas
 dat <- with(density(populacao$weight), data.frame(x, y))
 
