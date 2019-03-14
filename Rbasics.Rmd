@@ -151,3 +151,6 @@ pie(hab$quantidade,main="Cidades",col=c(4:6),labels=NA)
 legend("bottomright",legend=hab$cidade,cex=1,fill=c(4:6))
 ```
 
+# Teste
+
+ggplot
