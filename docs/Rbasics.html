@@ -517,9 +517,339 @@ legend(&quot;bottomright&quot;,legend=hab$cidade,cex=1,fill=c(4:6))</code></pre>
 <p><img src="Rbasics_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
-<div id="teste" class="section level1">
-<h1>Teste</h1>
-<p>ggplot</p>
+<div id="ggplot" class="section level1">
+<h1>ggplot</h1>
+<p>As funções nativas do R são muito versáteis e conseguem cobrir muitas necessidades de um analista de dados. Contudo, há também uma abordagem diferente, através do pacote <code>ggplot2</code>. Este pacote pode ser facilmente encontrado, instalado e carregado:</p>
+<pre class="r"><code>install.packages(&quot;ggplot2&quot;)
+library(ggplot2)</code></pre>
+<p>A vantagem desse pacote é que ele possibilita a construção dos gráficos em sete diferentes camadas, com dependência entre elas: a segunda só pode ser construida se existir a primeira, a terceira só pode ser construida se existir a segunda, e assim por diante.</p>
+<p>A primeira camada é responsável pelo conteúdo dos dados, enquanto que a segunda diz respeito à primeira etapa de visualização (escala) do gráfico. A terceira descreve a geometria de como os dados serão apresentados, ao passo que a quarta camada possibilita a visualização de várias facetas diferentes do mesmo dataset. A quinta camada possibilita a análise estatística, a sexta delimita as regiões relevantes das coordenadas do gráfico e, por fim, a sétima camada apresenta o tema geral do trabalho. Todas essas etapas poderão ser vistas nos exemplos seguintes.</p>
+<div id="histograma" class="section level2">
+<h2>Histograma</h2>
+<p>Utilizaremos o dataset nativo <code>iris</code>, que contém informações sobre flores.</p>
+<pre class="r"><code>#carregando a base de dados dentro de um dataframe
+iris &lt;- iris
+
+#resumo dos tipos de variáveis
+str(iris)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre class="r"><code>#sumário das entradas na base de dados
+summary(iris)</code></pre>
+<pre><code>##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## </code></pre>
+<p>O <code>ggplot2</code> funciona com a adição de funções responsáveis pelas camadas. Exibiremos agora informações simples sobre o tamanho das sépalas das flores em histograma.</p>
+<pre class="r"><code>#visualizando os dados das flores em 10 bins vermelhos
+ggplot(data=iris,aes(x=Sepal.Length)) +
+geom_histogram(color=&quot;black&quot;,fill=&quot;red&quot;,bins=10)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>A função <code>ggplot()</code> indica ao R qual o dataset utilizado e qual trecho do dataset será plotado. A função <code>geom_histogram()</code> traz a informação de que será utilizado um histograma, e nesse exemplo os bins são de cor preta com preenchimento vermelho e a quantidade escolhida foi de 10.</p>
+<p>Contudo, se houvesse a necessidade de se colorir cada um dos bins de acordo com a proporção da quantidade de espécies em cada m deles, as especificações podem ser ajustadas dentro da função <code>aes()</code>, dentro de <code>ggplot()</code>.</p>
+<pre class="r"><code>ggplot(data=iris,aes(x=Sepal.Length,color=Species,fill=Species)) +
+geom_histogram(color=&quot;black&quot;,bins=10)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="densidade-1" class="section level2">
+<h2>Densidade</h2>
+<p>Também é possível visualizar a distribuição de densidade dos dados através da função <code>geom_density()</code>. No exemplo seguinte, continuaremos a observar a distribuição de densidade do tamanho das sépalas, porém em uma distribuição de densidade por espécies, em curvas de contorno preto e preenchimento de 70% das cores relacionadas às espécies. Também é possível editar as legendas e os títulos do gráfico, com a função <code>labs()</code>:</p>
+<pre class="r"><code>ggplot(data=iris,aes(x=Sepal.Length,color=Species,fill=Species)) +
+geom_density(color=&quot;black&quot;, alpha = 0.7) +
+labs(title=&quot;Curva de densidade&quot;,x=&quot;Tamanho das sépalas&quot;,y=&quot;Densidade&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-barras-1" class="section level2">
+<h2>Gráfico de barras</h2>
+<p>Para a análise com gráfico de barras, utilizaremos a função <code>geom_bar()</code>. Exibiremos o dataset <code>mpg</code>, que contém dados referentes a vários tipos de carros.</p>
+<pre class="r"><code>mpg &lt;- mpg
+
+str(mpg)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    234 obs. of  11 variables:
+##  $ manufacturer: chr  &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; ...
+##  $ model       : chr  &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; ...
+##  $ displ       : num  1.8 1.8 2 2 2.8 2.8 3.1 1.8 1.8 2 ...
+##  $ year        : int  1999 1999 2008 2008 1999 1999 2008 1999 1999 2008 ...
+##  $ cyl         : int  4 4 4 4 6 6 6 4 4 4 ...
+##  $ trans       : chr  &quot;auto(l5)&quot; &quot;manual(m5)&quot; &quot;manual(m6)&quot; &quot;auto(av)&quot; ...
+##  $ drv         : chr  &quot;f&quot; &quot;f&quot; &quot;f&quot; &quot;f&quot; ...
+##  $ cty         : int  18 21 20 21 16 18 18 18 16 20 ...
+##  $ hwy         : int  29 29 31 30 26 26 27 26 25 28 ...
+##  $ fl          : chr  &quot;p&quot; &quot;p&quot; &quot;p&quot; &quot;p&quot; ...
+##  $ class       : chr  &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; ...</code></pre>
+<pre class="r"><code>summary(mpg)</code></pre>
+<pre><code>##  manufacturer          model               displ            year     
+##  Length:234         Length:234         Min.   :1.600   Min.   :1999  
+##  Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999  
+##  Mode  :character   Mode  :character   Median :3.300   Median :2004  
+##                                        Mean   :3.472   Mean   :2004  
+##                                        3rd Qu.:4.600   3rd Qu.:2008  
+##                                        Max.   :7.000   Max.   :2008  
+##       cyl           trans               drv                 cty       
+##  Min.   :4.000   Length:234         Length:234         Min.   : 9.00  
+##  1st Qu.:4.000   Class :character   Class :character   1st Qu.:14.00  
+##  Median :6.000   Mode  :character   Mode  :character   Median :17.00  
+##  Mean   :5.889                                         Mean   :16.86  
+##  3rd Qu.:8.000                                         3rd Qu.:19.00  
+##  Max.   :8.000                                         Max.   :35.00  
+##       hwy             fl               class          
+##  Min.   :12.00   Length:234         Length:234        
+##  1st Qu.:18.00   Class :character   Class :character  
+##  Median :24.00   Mode  :character   Mode  :character  
+##  Mean   :23.44                                        
+##  3rd Qu.:27.00                                        
+##  Max.   :44.00</code></pre>
+<p>Os argumentos dessa função para exibição de gráfico de barras fazem referência ao tipo de estatística exibida (que será tratado mais adiante) e ao contorno das barras. A função <code>coord_flip()</code> rotaciona em 90 graus a exibição das barras, para o eixo horizontal.</p>
+<pre class="r"><code>#gráfico de barras para MPG
+ggplot(data=mpg,aes(x=class,color=class,fill=class)) + 
+geom_bar(color=&quot;black&quot;) + coord_flip()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>Para a exibição em gráfico de barras dos dados de acordo com uma variável categórica, é necessário primeiramente a criação de um dataframe novo, que será chamado de <code>df</code>. Nele, será armazendo o valor da média da grandeza <code>displ</code> (“disponibilidade”, em tradução livre) de cada um dos modelos de carros. Para tanto, será carregado o pacote <code>tidyverse</code>, explicado em outro capítulo em mais detalhes.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>Com este pacote, é possível fazer uso não apenas de funções que auxiliam na criação de novas colunas e variáveis baseadas em valores já existentes, mas também do operador <code>%&gt;%</code>, ou pipeline. A utilização deste operador é explicada em detalhes em outro capítulo.</p>
+<pre class="r"><code>#ordenando por uma variável categórica
+df &lt;- mpg %&gt;% group_by(class) %&gt;% dplyr::summarise(mean=mean(displ)) %&gt;%
+arrange(-mean) %&gt;% mutate(class = factor(class,levels=class))</code></pre>
+<p>No código, o dataframe <code>df</code> foi criado, tendo como base o dataframe anterior <code>mpg</code>. Agrupou-se por classe de carro através da função <code>group_by()</code> e aplicou-se a função <code>summarise()</code> do pacote <code>dplyr</code> (componente do <code>tidyverse</code>) na variável <code>displ</code> do dataset <code>mpg</code>. Mais especificamente, criou-se aí a variável <code>mean</code> responsável por trazer a informação da média de cada classe agrupada, através da função <code>mean()</code>. Em seguida, ordenou-se da menor para a maior com a função <code>arrange()</code> e o operador lógico <code>-</code>. Por fim, a função <code>mutate()</code>foi aplicada para a criação de mais uma variável no dataset <code>df</code>: a variável que continha os nomes dos tipos de carros ordenados pelos fatores da variável <code>class</code> do dataset <code>mpg</code>. O dataset pode ser visualizado a seguir:</p>
+<pre class="r"><code>df</code></pre>
+<pre><code>## # A tibble: 7 x 2
+##   class       mean
+##   &lt;fct&gt;      &lt;dbl&gt;
+## 1 2seater     6.16
+## 2 suv         4.46
+## 3 pickup      4.42
+## 4 minivan     3.39
+## 5 midsize     2.92
+## 6 subcompact  2.66
+## 7 compact     2.33</code></pre>
+<p>A partir desse ponto, é possível exibir os dados anteriores em um gráfico. O dataset será o <code>df</code>, no eixo X será exibido <code>class</code> e no eixo Y <code>mean</code>. As cores serão ajustadas de acordo com as classes de carro, tal como o preenchimento. A partir disso, os argumentos da função <code>geom_bar()</code> dizem respeito à natureza estatística da exibição e da cor do contorno das barras. Também será adicionado uma função para o título do eixo X e outra para o eixo Y. Por fim, a função <code>geom_text()</code> será responsável pelo ajuste estético da quantidade de casas decimais exibidas, da altura dos valores dentro de cada barra, da cor do texto, exibição de negrito e tamanho da fonte.</p>
+<pre class="r"><code>#exibindo a etapa anterior em gráfico
+ggplot(data=df,aes(x=class,y=mean,color=class,fill=class)) +
+geom_bar(stat=&quot;identity&quot;,color=&quot;black&quot;) + xlab(&quot;classe&quot;) + ylab(&quot;media&quot;) +
+geom_text(aes(label=sprintf(&quot;%0.2f&quot;,round(mean,digits=2))),
+          vjust=1.6,color=&quot;white&quot;,fontface=&quot;bold&quot;,size=4) </code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Também é possível exibir o gráfico de barras empilhado ou lado a lado por classes.</p>
+<pre class="r"><code>#exibindo gráfico de barras empilhados por classe, pelo tipo de tração
+ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
+geom_bar(stat=&quot;identity&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<pre class="r"><code>#exibindo gráfico de barras lado a lado por classe, pelo tipo de tração
+ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
+  geom_bar(stat=&quot;identity&quot;, position=position_dodge())</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
+</div>
+<div id="boxplot-1" class="section level2">
+<h2>Boxplot</h2>
+<p>A exibição de dados em forma de boxplot segue a mesma lógica das exibições anteriores de histograma e de gráfico de barras: Utiliza-se primeiramente o <code>ggplot()</code> para a definição das primeiras camadas e a função <code>geom_boxplot()</code> para a escolha do tipo de gráfico. Para o dataset nativo <code>mtcars</code> temos:</p>
+<pre class="r"><code>mtcars &lt;- mtcars
+
+str(mtcars)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    32 obs. of  11 variables:
+##  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+##  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+##  $ disp: num  160 160 108 258 360 ...
+##  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+##  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+##  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+##  $ qsec: num  16.5 17 18.6 19.4 17 ...
+##  $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+##  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+##  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+##  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
+<pre class="r"><code>summary(mtcars)</code></pre>
+<pre><code>##       mpg             cyl             disp             hp       
+##  Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0  
+##  1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5  
+##  Median :19.20   Median :6.000   Median :196.3   Median :123.0  
+##  Mean   :20.09   Mean   :6.188   Mean   :230.7   Mean   :146.7  
+##  3rd Qu.:22.80   3rd Qu.:8.000   3rd Qu.:326.0   3rd Qu.:180.0  
+##  Max.   :33.90   Max.   :8.000   Max.   :472.0   Max.   :335.0  
+##       drat             wt             qsec             vs        
+##  Min.   :2.760   Min.   :1.513   Min.   :14.50   Min.   :0.0000  
+##  1st Qu.:3.080   1st Qu.:2.581   1st Qu.:16.89   1st Qu.:0.0000  
+##  Median :3.695   Median :3.325   Median :17.71   Median :0.0000  
+##  Mean   :3.597   Mean   :3.217   Mean   :17.85   Mean   :0.4375  
+##  3rd Qu.:3.920   3rd Qu.:3.610   3rd Qu.:18.90   3rd Qu.:1.0000  
+##  Max.   :4.930   Max.   :5.424   Max.   :22.90   Max.   :1.0000  
+##        am              gear            carb      
+##  Min.   :0.0000   Min.   :3.000   Min.   :1.000  
+##  1st Qu.:0.0000   1st Qu.:3.000   1st Qu.:2.000  
+##  Median :0.0000   Median :4.000   Median :2.000  
+##  Mean   :0.4062   Mean   :3.688   Mean   :2.812  
+##  3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.000  
+##  Max.   :1.0000   Max.   :5.000   Max.   :8.000</code></pre>
+<p>Exibindo a variável de fatores <code>cyl</code> no eixo X e a variável <code>disp</code> no eixo Y, com coloração para cada uma das classes de cilindradas, temos:</p>
+<pre class="r"><code>#boxplot das cilindradas dos carros
+mtcars$cyl = factor(mtcars$cyl)
+ggplot(data=mtcars, aes(x=cyl, y=disp,fill=cyl)) + geom_boxplot() +
+xlab(&quot;cilindradas&quot;) + ylab(&quot;disponibilidade&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-pontos" class="section level2">
+<h2>Gráfico de pontos</h2>
+<p>Utilizaremos a base de dados <code>iris</code> para a exibição do gráfico de pontos. Este tipo de gráfico é mais utilizado quando há uma quantidade consideravelmente grande de dados e deseja-se saber se há uma correlação (e sua intensidade) entre as variáveis. No pacote <code>ggplot</code>, os gráficos de pontos estão disponíveis através da função <code>geom_point()</code>.</p>
+<pre class="r"><code>#gráfico de pontos da tamanho da sépala (eixo x) pela largura da sépala (eixo y)
+ggplot(data=iris,aes(x=Sepal.Length,y=Sepal.Width,shape=Species,color=Species)) +
+geom_point() + xlab(&quot;Altura&quot;) + ylab(&quot;Largura&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>Para o dataset de carros:</p>
+<pre class="r"><code>#gráfico de pontos de uma parte específica dos carros das cilindradas
+ggplot(data=subset(mtcars,am==0),aes(x=mpg,y=disp,color=cyl)) + geom_point()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>Também é possível armazenar uma parte do plot em uma lista e criar variações sobre ela. Como exemplo, o gráfico de pontos com curva suavizada no dataset de carros, dentro da lista <code>grafico</code>:</p>
+<pre class="r"><code>#gráfico de pontos suavizado e com linha de acompanhamento dos cavalo-vapor
+grafico &lt;- ggplot(data = mtcars, aes(x = mpg,y = disp, color = hp))  + geom_point(size=2.5)  +
+geom_smooth() + geom_line(aes(y=hp))
+
+grafico</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com tema cinzento
+grafico + labs(title=&quot;Gráfico&quot;) +
+theme(plot.title=element_text(color=&quot;blue&quot;,size=17),
+      plot.background=element_rect(&quot;grey&quot;))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com um tema pré-pronto
+grafico + theme_dark()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-3.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que sem linhas
+grafico + theme(panel.background= element_blank())</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-4.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que mais enxuto ainda
+grafico + theme(axis.text = element_blank(),axis.text.x= element_blank(),
+                axis.text.y= element_blank())</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-5.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com a legenda em outro lugar
+grafico + theme(legend.position=&quot;top&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-6.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anteiror, só que com mudança na escala de cores
+grafico + scale_color_gradient(low=&quot;yellow&quot;,high=&quot;red&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-7.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com mais granularidade na escala de cores
+grafico + scale_color_gradient2(low=&quot;yellow&quot;,mid=&quot;green&quot;,high=&quot;red&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-8.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com mudança de escala
+grafico + scale_color_continuous(name = &quot;cavalo-vapor&quot;,
+breaks = seq(50,350,75), labels = paste(seq(50,350,75),&quot;hps&quot;))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-9.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com escala de cores diferente
+grafico + scale_color_gradient(low = &quot;blue&quot;,high = &quot;red&quot;) +
+scale_color_continuous( breaks = seq(50,350,75))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-10.png" width="672" /></p>
+</div>
+<div id="faceting" class="section level2">
+<h2>Faceting</h2>
+<p>Faceting é o recurso de apresentar diversos gráficos em uma única observação. Para a demonstração do próximo faceting, exibiremos o seguinte:</p>
+<pre class="r"><code>#criando vários gráficos para cada elemento único de carb
+ggplot(data=mtcars,aes(x=mpg,y=disp)) + geom_point() + facet_wrap(~carb)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<pre class="r"><code>#o mesmo recurso anterior, mas faceting com am e carb, agora (label em ambos)
+ggplot(data=mtcars,aes(x=mpg,y=disp)) + geom_point() +
+facet_wrap(~carb + am, labeller=&quot;label_both&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
+</div>
+<div id="exemplo-de-exploracao-de-dados" class="section level2">
+<h2>Exemplo de exploração de dados</h2>
+<p>Criaremos agora um dataset chamado <code>populacao</code> contendo 400 entradas para homens e mulheres, com médias de pesos entre as pessoas:</p>
+<pre class="r"><code>#carregando a biblioteca plyr
+library(plyr)
+
+#criando dataframe com dados
+populacao &lt;- data.frame(
+  sex=factor(rep(c(&quot;F&quot;, &quot;M&quot;), each=200)),
+  weight=round(c(rnorm(200, mean=55, sd=5),
+                 rnorm(200, mean=65, sd=5)))
+)
+
+#exibição de 20 valores aleatórios
+sample_n(populacao,20,replace=FALSE)</code></pre>
+<pre><code>##     sex weight
+## 225   M     68
+## 149   F     52
+## 191   F     60
+## 193   F     53
+## 52    F     55
+## 107   F     50
+## 111   F     55
+## 146   F     58
+## 197   F     52
+## 209   M     63
+## 151   F     53
+## 390   M     66
+## 261   M     67
+## 128   F     57
+## 215   M     63
+## 8     F     55
+## 196   F     56
+## 176   F     57
+## 17    F     57
+## 298   M     59</code></pre>
+<p>É importante criar um dataframe, <code>mu</code>, contendo a média de cada uma das populações por sexo, para a criação de uma linha pontilhada no gráfico:</p>
+<pre class="r"><code>#calculando a média de cada grupo
+mu &lt;- ddply(populacao,&quot;sex&quot;,summarise,grp.mean=mean(weight))
+
+mu</code></pre>
+<pre><code>##   sex grp.mean
+## 1   F   55.245
+## 2   M   64.970</code></pre>
+<p>Criando um gráfico de densidade básico e armazenando em <code>p</code>:</p>
+<pre class="r"><code>p &lt;- ggplot(populacao, aes(x=weight)) + geom_area(stat = &quot;bin&quot;) +
+  geom_area(aes(y = ..density..), stat = &quot;bin&quot;) +
+  geom_area(stat = &quot;bin&quot;, fill = &quot;lightblue&quot;)
+
+p + geom_vline(aes(xintercept=mean(weight)),
+             color=&quot;blue&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>Fazendo variações:</p>
+<pre class="r"><code>#mudando tipos e cores de linhas
+p + geom_area(stat=&quot;bin&quot;,color=&quot;darkblue&quot;,fill=&quot;lightblue&quot;) + geom_vline(aes(xintercept=mean(weight)),
+             color=&quot;blue&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<pre class="r"><code>p + geom_area(stat=&quot;bin&quot;,color=&quot;black&quot;,fill=&quot;lightgrey&quot;,linetype=&quot;dashed&quot;) + geom_vline(aes(xintercept=mean(weight)),
+             color=&quot;blue&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-35-2.png" width="672" /></p>
+<pre class="r"><code>#colorindo os grupos diferentes nos gráficos
+p2 &lt;- ggplot(populacao, aes(x=weight, fill=sex)) +
+  geom_area(stat =&quot;bin&quot;, alpha=0.6) +
+  theme_classic() + geom_vline(data=mu,aes(xintercept=grp.mean,
+                                           color=sex),linetype=&quot;dashed&quot;)
+
+#mudando as cores manualmente (três alternativas)
+p2 + scale_fill_manual(values=c(&quot;#999999&quot;,&quot;#E69F00&quot;))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-35-3.png" width="672" /></p>
+<pre class="r"><code>p2 + scale_fill_brewer(palette=&quot;Dark2&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-35-4.png" width="672" /></p>
+<pre class="r"><code>p2 + scale_fill_grey()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-35-5.png" width="672" /></p>
+<pre class="r"><code>#dividindo por facets
+p + facet_grid(sex ~.) + geom_vline(data=mu,aes(xintercept=grp.mean,
+                                                color=&quot;red&quot;,linetype=&quot;dashed&quot;))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-35-6.png" width="672" /></p>
+<p>Criaremos um objeto, <code>dat</code>, contendo a curva de densidade dos pesos das pessoas, para plotar a área abaixo de uma certa região da curva:</p>
+<pre class="r"><code>#curva de densidade dos pesos das pessoas
+dat &lt;- with(density(populacao$weight), data.frame(x, y))
+
+#plotando área abaixo da curva (x entre 65 e70)
+ggplot(data = dat, mapping = aes(x = x, y = y)) +
+  geom_line()+
+  geom_area(mapping = aes(x = ifelse(x&gt;65 &amp; x&lt; 70 , x, 0)), fill = &quot;red&quot;) +
+  xlim(30, 80)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+</div>
 </div>
 
 
