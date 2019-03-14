@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R Basics</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Dallas Ferraz</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Rbasics.html">R Basics</a>
+</li>
+<li>
+  <a href="Links.html">Links</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Basics</h1>
+
+</div>
+
+
+<p>This is just a sneak peek on forthcoming weeks. Here I’ll post the PT-BR version of the first pages of a R crash course that, hopefully, will help you out to start your career as a data scientist. Enjoy:</p>
+<div id="native-graph-functions-graficos-de-funcoes-nativas" class="section level1">
+<h1>Native graph functions: Gráficos de funções nativas</h1>
+<p>Este capítulo apresentará algumas ferramentas nativas em R responsáveis pela exibição gráfica de alguns conjuntos de dados. Estatística descritiva e a escolha da maneira correta de apresentar os dados são de grande importância para um cientista de dados. Em outros capítulos, serão apresentadas outras maneiras de se criar exibições gráficas mais detalhadas e com outras opções, com pacotes que não são nativos do R.</p>
+<div id="histogramas" class="section level2">
+<h2>Histogramas</h2>
+<p>O dataset <code>trees</code> traz informações sobre algumas árvores. Observando um resumo básico deste dataset, temos:</p>
+<pre><code>##      Girth           Height       Volume     
+##  Min.   : 8.30   Min.   :63   Min.   :10.20  
+##  1st Qu.:11.05   1st Qu.:72   1st Qu.:19.40  
+##  Median :12.90   Median :76   Median :24.20  
+##  Mean   :13.25   Mean   :76   Mean   :30.17  
+##  3rd Qu.:15.25   3rd Qu.:80   3rd Qu.:37.30  
+##  Max.   :20.60   Max.   :87   Max.   :77.00</code></pre>
+<p>A coluna <code>Girth</code> informa o calibre de um tronco, enquanto que <code>Height</code>apresenta a altura da árvore. Por fim, <code>Volume</code> informa, provavelmente em metros cúbicos, a capacidade tridimensional de ocupação da madeira daquela árvore. Apresentaremos agora a representação do dataframe <code>trees</code> em forma de histograma:</p>
+<pre class="r"><code>#histograma da altura das ?rvores com 10 caixinhas de intervalo
+histograma &lt;- hist(trees$Height,breaks=10)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Esta visualização é muito simplificada e pode ser melhorada. Por exemplo, os componentes do histograma poderiam ser azuis e vazados, e os eixos poderiam trazer alguma informação significativa acerca das dimensões examinadas. Também é possível, como visto abaixo, criar um título para o gráfico:</p>
+<pre class="r"><code>#complementando a estética do histograma anterior
+plot(histograma,col=&quot;blue&quot;,density=40,
+     main=&quot;Árvores&quot;, ylab=&quot;Frequência&quot;,xlab=&quot;Altura&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="densidade" class="section level2">
+<h2>Densidade</h2>
+<p>Ainda tomando como base o exemplo anterior, é possível que se deseje conhecer a curva que descreve a distribuição de densidade das alturas das árvores no dataset. Isso é possível através da função <code>density()</code>.</p>
+<pre class="r"><code>#densidade das alturas, representadas por uma linha azul
+densidade &lt;- density(trees$Height)
+plot(densidade,col=&quot;blue&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="sobreposicao" class="section level2">
+<h2>Sobreposição</h2>
+<p>Em uma situação em que seja necessário se comparar mais de uma representação, o recurso de sobreposição é indispensável. Tomemos como exemplo o caso anterior, que foi representado tanto em um gráfico de histograma quanto por um gráfico de densidade. Em R, é possível sobrepor as duas exibições utilizando a função <code>par()</code>.</p>
+<pre class="r"><code>#sobreposição das informações (histograma como primeira camada)
+plot(histograma,col=&quot;red&quot;,density=40,
+     main=&quot;Árvores&quot;, ylab=&quot;Frequência&quot;,xlab=&quot;Altura&quot;)
+
+par(new=TRUE)
+
+#apagando as legendas e o título do gráfico de densidade
+plot(densidade,col=&quot;blue&quot;,xaxt=&#39;n&#39;,yaxt=&#39;n&#39;,ann=FALSE)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-dispersao" class="section level2">
+<h2>Gráfico de dispersão</h2>
+<p>O gráfico de pontos, ou dispersão, pode ser usado para melhor representar as observações em duas dimensões. Esse recurso permite enxergar possíveis tendências, correlações e a sua magnitude. No R, a função <code>plot()</code> pode exercer nativamente esse papel, juntamente com alguns argumentos extras:</p>
+<pre class="r"><code>#gráfico de dispersão do calibre das árvores versus volume
+plot(trees$Girth,trees$Volume,
+     main=&quot;Árvores&quot;,ylab=&quot;circunferência&quot;,xlab=&quot;volume&quot;,col=&quot;blue&quot;,
+     pch=20)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Para uma visão geral do dataset <code>trees</code>, o gráfico de dispersão também é muito útil, pois é possível enxergar a correlação de todas as variáveis com elas mesmas, em um grid amplo, utilizando a função <code>plot()</code> sem nenhum argumento, além do dataset em questão:</p>
+<pre class="r"><code>#plotando todas as correlações de todas as variáveis de uma só vez
+plot(trees)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Também é possível dividir a tela em quantos espaços forem necessários, para uma exibição de diferentes tipos de gráficos:</p>
+<pre class="r"><code>#dividindo a tela para os gráficos que lhe interessam (nesse caso, dois)
+split.screen(figs=c(1,2))</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+<pre class="r"><code>#escolhendo o gráfico para a seção 1 da tela (nesse caso, o histograma)
+screen(1)
+plot(histograma)
+
+#escolhendo o gráfico para a seção 2 da tela (nesse caso, gráfico de densidade)
+screen(2)
+plot(densidade)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="boxplot" class="section level2">
+<h2>Boxplot</h2>
+<p>Uma outra representação de dados agregados muito utilizada é o boxplot. Com ele, é possível visualizar não apenas a distribuição dos dados, mas também a tendência de centralidade e a existência ou não de outliers no dataset.</p>
+<pre class="r"><code>#boxplot com visualizaÇão geral mais amigável de todo o conteúdo
+boxplot(trees,horizontal=TRUE)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-barras" class="section level2">
+<h2>Gráfico de barras</h2>
+<p>Para a exibição em barras, é necessário que se agregue os dados de uma forma específica. Tomemos como exemplo o dataset <code>pop</code>, que pode ser visualizado de maneira geral abaixo:</p>
+<pre class="r"><code>#criação de um dataframe chamado pop
+pop &lt;- as.data.frame(matrix(c(13,45,9,17,17,21,&quot;A&quot;,&quot;B&quot;,&quot;A&quot;,&quot;C&quot;,&quot;A&quot;,&quot;B&quot;),
+                            ncol=2,nrow=6))
+
+colnames(pop) &lt;- c(&quot;quantidade&quot;,&quot;cidade&quot;)
+
+pop</code></pre>
+<pre><code>##   quantidade cidade
+## 1         13      A
+## 2         45      B
+## 3          9      A
+## 4         17      C
+## 5         17      A
+## 6         21      B</code></pre>
+<pre class="r"><code>#gráfico de barras de habitantes por cidade (com agregação dos dados)
+hab &lt;- aggregate(. ~cidade,data=pop,sum) 
+
+#criação do gráfico de barras e encapsulamento por box()
+barplot(hab$quantidade,col=gray.colors(3),xlab=&quot;cidade&quot;,ylab=&quot;total&quot;,
+        names.arg=hab$cidade)
+
+box()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-setores" class="section level2">
+<h2>Gráfico de setores</h2>
+<p>Também conhecido informalmente como “gráfico de pizza”, pode ser facilmente plotado em R através da seguinte função, juntamente com uma legenda:</p>
+<pre class="r"><code>#gráfico de setores (usando os dados agregados)
+pie(hab$quantidade,main=&quot;Cidades&quot;,col=c(4:6),labels=NA)
+
+#legenda
+legend(&quot;bottomright&quot;,legend=hab$cidade,cex=1,fill=c(4:6))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
