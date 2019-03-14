@@ -316,45 +316,7 @@ ggplot(data=subset(mtcars,am==0),aes(x=mpg,y=disp,color=cyl)) + geom_point()
 
 Também é possível armazenar uma parte do plot em uma lista e criar variações sobre ela. Como exemplo, o gráfico de pontos com curva suavizada no dataset de carros, dentro da lista `grafico`:
 
-```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
-#gráfico de pontos suavizado e com linha de acompanhamento dos cavalo-vapor
-grafico <- ggplot(data = mtcars, aes(x = mpg,y = disp, color = hp))  + geom_point(size=2.5)  +
-geom_smooth() + geom_line(aes(y=hp))
-
-grafico
-
-#mesma coisa do anterior, só que com tema cinzento
-grafico + labs(title="Gráfico") +
-theme(plot.title=element_text(color="blue",size=17),
-      plot.background=element_rect("grey"))
-
-#mesma coisa do anterior, só que com um tema pré-pronto
-grafico + theme_dark()
-
-#mesma coisa do anterior, só que sem linhas
-grafico + theme(panel.background= element_blank())
-
-#mesma coisa do anterior, só que mais enxuto ainda
-grafico + theme(axis.text = element_blank(),axis.text.x= element_blank(),
-                axis.text.y= element_blank())
-
-#mesma coisa do anterior, só que com a legenda em outro lugar
-grafico + theme(legend.position="top")
-
-#mesma coisa do anteiror, só que com mudança na escala de cores
-grafico + scale_color_gradient(low="yellow",high="red")
-
-#mesma coisa do anterior, só que com mais granularidade na escala de cores
-grafico + scale_color_gradient2(low="yellow",mid="green",high="red")
-
-#mesma coisa do anterior, só que com mudança de escala
-grafico + scale_color_continuous(name = "cavalo-vapor",
-breaks = seq(50,350,75), labels = paste(seq(50,350,75),"hps"))
-
-#mesma coisa do anterior, só que com escala de cores diferente
-grafico + scale_color_gradient(low = "blue",high = "red") +
-scale_color_continuous( breaks = seq(50,350,75))
-```
+GRAFICO
 
 ##Faceting
 
@@ -412,31 +374,7 @@ p + geom_vline(aes(xintercept=mean(weight)),
 
 Fazendo variações:
 
-```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
-#mudando tipos e cores de linhas
-p + geom_area(stat="bin",color="darkblue",fill="lightblue") + geom_vline(aes(xintercept=mean(weight)),
-             color="blue", linetype="dashed", size=1)
-
-p + geom_area(stat="bin",color="black",fill="lightgrey",linetype="dashed") + geom_vline(aes(xintercept=mean(weight)),
-             color="blue", linetype="dashed", size=1)
-
-#colorindo os grupos diferentes nos gráficos
-p2 <- ggplot(populacao, aes(x=weight, fill=sex)) +
-  geom_area(stat ="bin", alpha=0.6) +
-  theme_classic() + geom_vline(data=mu,aes(xintercept=grp.mean,
-                                           color=sex),linetype="dashed")
-
-#mudando as cores manualmente (três alternativas)
-p2 + scale_fill_manual(values=c("#999999","#E69F00"))
-
-p2 + scale_fill_brewer(palette="Dark2")
-
-p2 + scale_fill_grey()
-
-#dividindo por facets
-p + facet_grid(sex ~.) + geom_vline(data=mu,aes(xintercept=grp.mean,
-                                                color="red",linetype="dashed"))
-```
+PZAO
 
 Criaremos um objeto, `dat`, contendo a curva de densidade dos pesos das pessoas, para plotar a área abaixo de uma certa região da curva:
 
