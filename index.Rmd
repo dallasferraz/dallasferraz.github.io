@@ -28,7 +28,7 @@ I want to give a shout-out to [Dr. Florian Privé](https://crumplab.github.io/La
 </div>
 <div class="col-sm-6">
 
-<a href = "https://dallasferraz.github.io/WebsiteRMarkdown/">
+<a href = "https://www.r-project.org">
 ![](images/rlogo.jpg)
 </a>
 </div>
