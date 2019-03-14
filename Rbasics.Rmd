@@ -10,7 +10,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE, fig.asp=0.62)
 ```
 
 This is just a sneak peek on forthcoming weeks. Here I'll post the PT-BR version of the first pages of a R crash course that, hopefully, will help you out to start your career as a data scientist. Enjoy:

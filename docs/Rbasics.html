@@ -778,34 +778,34 @@ populacao &lt;- data.frame(
 #exibição de 20 valores aleatórios
 sample_n(populacao,20,replace=FALSE)</code></pre>
 <pre><code>##     sex weight
-## 225   M     68
-## 149   F     52
-## 191   F     60
-## 193   F     53
-## 52    F     55
-## 107   F     50
-## 111   F     55
-## 146   F     58
-## 197   F     52
-## 209   M     63
-## 151   F     53
-## 390   M     66
-## 261   M     67
-## 128   F     57
-## 215   M     63
-## 8     F     55
-## 196   F     56
-## 176   F     57
-## 17    F     57
-## 298   M     59</code></pre>
+## 202   M     58
+## 51    F     70
+## 357   M     69
+## 387   M     63
+## 45    F     51
+## 233   M     69
+## 336   M     62
+## 93    F     56
+## 62    F     53
+## 267   M     77
+## 278   M     72
+## 171   F     55
+## 103   F     53
+## 30    F     52
+## 390   M     72
+## 24    F     57
+## 186   F     52
+## 282   M     76
+## 79    F     58
+## 59    F     60</code></pre>
 <p>É importante criar um dataframe, <code>mu</code>, contendo a média de cada uma das populações por sexo, para a criação de uma linha pontilhada no gráfico:</p>
 <pre class="r"><code>#calculando a média de cada grupo
 mu &lt;- ddply(populacao,&quot;sex&quot;,summarise,grp.mean=mean(weight))
 
 mu</code></pre>
 <pre><code>##   sex grp.mean
-## 1   F   55.245
-## 2   M   64.970</code></pre>
+## 1   F   55.415
+## 2   M   64.800</code></pre>
 <p>Criando um gráfico de densidade básico e armazenando em <code>p</code>:</p>
 <pre class="r"><code>p &lt;- ggplot(populacao, aes(x=weight)) + geom_area(stat = &quot;bin&quot;) +
   geom_area(aes(y = ..density..), stat = &quot;bin&quot;) +
