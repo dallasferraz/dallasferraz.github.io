@@ -1,11 +1,13 @@
 name: "dallasferraz"
-navbar:
-  title: "Dallas Ferraz"
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "R Basics"
-      href: Rbasics.html
-    - text: "Links"
-      href: Links.html
 output_dir: "docs"
+navbar:
+  title: Dallas Ferraz
+  left:
+  - text: "Home"
+    href: index.html
+  - text: "R Basics"
+    href: Rbasics.html
+  - text: "Links"
+    href: Links.html
+output:
+  html_document:
