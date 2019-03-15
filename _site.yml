@@ -1,11 +1,20 @@
-name: "dallasferraz"
-navbar:
-  title: "Dallas Ferraz"
-  left:
-    - text: "Home"
+--- 
+name: dallasferraz
+navbar: 
+  left: 
+    - 
       href: index.html
-    - text: "Rbasics"
+      text: Home
+    - 
       href: Rbasics.html
-    - text: "Links"
+      text: Rbasics
+    - 
       href: Links.html
-output_dir: "docs"
+      text: Links
+  title: "Dallas Ferraz"
+output_dir: docs
+right: 
+  - 
+    href: "https://dallasferraz.github.io/docs/"
+    icon: "fa-question fa-lg"
+toc: true
