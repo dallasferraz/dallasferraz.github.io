@@ -21,7 +21,7 @@ output: html_document
 
 Hello.
 
-This page will help me keep track of my work with R and data analysis.
+This page will help me keep track of my work with R and data science.
 
 I want to give a shout-out to [Dr. Florian Privé](https://crumplab.github.io/LabJournalWebsite/index.html) for developing such an amazing R-to-github framework tutorial from which this website is mainly based on. Cheers from Brazil!
 
