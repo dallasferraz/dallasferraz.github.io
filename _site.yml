@@ -15,6 +15,6 @@ navbar:
 output_dir: docs
 right: 
   - 
-    href: "https://dallasferraz.github.io/docs/"
-    icon: "fa-github"
+    href: https://dallasferraz.github.io/docs/
+    icon: fa-github
 toc: true
