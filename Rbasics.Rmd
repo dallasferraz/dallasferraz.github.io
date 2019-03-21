@@ -23,9 +23,7 @@ Este capítulo apresentará algumas ferramentas nativas em R responsáveis pela 
 ## Histogramas
 
 ```{r echo=FALSE}
-
 trees <- trees
-
 ```
 
 O dataset `trees` traz informações sobre algumas árvores. Observando um resumo básico deste dataset, temos:
@@ -62,13 +60,15 @@ plot(densidade,col="blue")
 
 Em uma situação em que seja necessário se comparar mais de uma representação, o recurso de sobreposição é indispensável. Tomemos como exemplo o caso anterior, que foi representado tanto em um gráfico de histograma quanto por um gráfico de densidade. Em R, é possível sobrepor as duas exibições utilizando a função `par()`.
 
-```{r, fig.asp=0.62,fig.keep = 'last'}
+```{r, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #sobreposição das informações (histograma como primeira camada)
 plot(histograma,col="red",density=40,
      main="Árvores", ylab="Frequência",xlab="Altura")
 
 par(new=TRUE)
+```
 
+```{r, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #apagando as legendas e o título do gráfico de densidade
 plot(densidade,col="blue",xaxt='n',yaxt='n',ann=FALSE)
 ```
@@ -120,7 +120,7 @@ boxplot(trees,horizontal=TRUE)
 
 Para a exibição em barras, é necessário que se agregue os dados de uma forma específica. Tomemos como exemplo o dataset `pop`, que pode ser visualizado de maneira geral abaixo:
 
-```{r}
+```{r,results=TRUE}
 #criação de um dataframe chamado pop
 pop <- as.data.frame(matrix(c(13,45,9,17,17,21,"A","B","A","C","A","B"),
                             ncol=2,nrow=6))
@@ -131,14 +131,16 @@ pop
 
 #gráfico de barras de habitantes por cidade (com agregação dos dados)
 hab <- aggregate(. ~cidade,data=pop,sum) 
+```
 
+```{r}
 #criação do gráfico de barras e encapsulamento por box()
 barplot(hab$quantidade,col=gray.colors(3),xlab="cidade",ylab="total",
         names.arg=hab$cidade)
 
 box()
-
 ```
+
 
 ## Gráfico de setores
 
@@ -173,13 +175,17 @@ A primeira camada é responsável pelo conteúdo dos dados, enquanto que a segun
 
 Utilizaremos o dataset nativo `iris`, que contém informações sobre flores.
 
-```{r}
+```{r,results=TRUE}
 #carregando a base de dados dentro de um dataframe
 iris <- iris
+```
 
+```{r}
 #resumo dos tipos de variáveis
 str(iris)
+```
 
+```{r}
 #sumário das entradas na base de dados
 summary(iris)
 ```
@@ -215,11 +221,13 @@ labs(title="Curva de densidade",x="Tamanho das sépalas",y="Densidade")
 
 Para a análise com gráfico de barras, utilizaremos a função `geom_bar()`. Exibiremos o dataset `mpg`, que contém dados referentes a vários tipos de carros.
 
-```{r}
+```{r,results=TRUE}
 mpg <- mpg
 
 str(mpg)
+```
 
+```{r}
 summary(mpg)
 ```
 
@@ -252,7 +260,6 @@ No código, o dataframe `df` foi criado, tendo como base o dataframe anterior `m
 df
 ```
 
-
 A partir desse ponto, é possível exibir os dados anteriores em um gráfico. O dataset será o `df`, no eixo X será exibido `class` e no eixo Y `mean`. As cores serão ajustadas de acordo com as classes de carro, tal como o preenchimento. A partir disso, os argumentos da função `geom_bar()` dizem respeito à natureza estatística da exibição e da cor do contorno das barras. Também será adicionado uma função para o título do eixo X e outra para o eixo Y. Por fim, a função `geom_text()` será responsável pelo ajuste estético da quantidade de casas decimais exibidas, da altura dos valores dentro de cada barra, da cor do texto, exibição de negrito e tamanho da fonte.
 
 ```{r, fig.asp=0.62,fig.keep = 'last'}
@@ -265,11 +272,13 @@ geom_text(aes(label=sprintf("%0.2f",round(mean,digits=2))),
 
 Também é possível exibir o gráfico de barras empilhado ou lado a lado por classes.
 
-```{r, fig.asp=0.62,fig.keep = 'last'}
+```{r, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #exibindo gráfico de barras empilhados por classe, pelo tipo de tração
 ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
 geom_bar(stat="identity")
+```
 
+```{r, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #exibindo gráfico de barras lado a lado por classe, pelo tipo de tração
 ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
   geom_bar(stat="identity", position=position_dodge())
@@ -279,11 +288,13 @@ ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
 
 A exibição de dados em forma de boxplot segue a mesma lógica das exibições anteriores de histograma e de gráfico de barras: Utiliza-se primeiramente o `ggplot()` para a definição das primeiras camadas e a função `geom_boxplot()` para a escolha do tipo de gráfico. Para o dataset nativo `mtcars` temos:
 
-```{r}
+```{r,results=TRUE}
 mtcars <- mtcars
 
 str(mtcars)
+```
 
+```{r,results=TRUE}
 summary(mtcars)
 ```
 
@@ -317,41 +328,59 @@ ggplot(data=subset(mtcars,am==0),aes(x=mpg,y=disp,color=cyl)) + geom_point()
 
 Também é possível armazenar uma parte do plot em uma lista e criar variações sobre ela. Como exemplo, o gráfico de pontos com curva suavizada no dataset de carros, dentro da lista `grafico`:
 
-```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #gráfico de pontos suavizado e com linha de acompanhamento dos cavalo-vapor
 grafico <- ggplot(data = mtcars, aes(x = mpg,y = disp, color = hp))  + geom_point(size=2.5)  +
 geom_smooth() + geom_line(aes(y=hp))
 
 grafico
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anterior, só que com tema cinzento
 grafico + labs(title="Gráfico") +
 theme(plot.title=element_text(color="blue",size=17),
       plot.background=element_rect("grey"))
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anterior, só que com um tema pré-pronto
 grafico + theme_dark()
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anterior, só que sem linhas
 grafico + theme(panel.background= element_blank())
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anterior, só que mais enxuto ainda
 grafico + theme(axis.text = element_blank(),axis.text.x= element_blank(),
                 axis.text.y= element_blank())
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anterior, só que com a legenda em outro lugar
 grafico + theme(legend.position="top")
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anteiror, só que com mudança na escala de cores
 grafico + scale_color_gradient(low="yellow",high="red")
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anterior, só que com mais granularidade na escala de cores
 grafico + scale_color_gradient2(low="yellow",mid="green",high="red")
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anterior, só que com mudança de escala
 grafico + scale_color_continuous(name = "cavalo-vapor",
 breaks = seq(50,350,75), labels = paste(seq(50,350,75),"hps"))
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #mesma coisa do anterior, só que com escala de cores diferente
 grafico + scale_color_gradient(low = "blue",high = "red") +
 scale_color_continuous( breaks = seq(50,350,75))
@@ -361,22 +390,22 @@ scale_color_continuous( breaks = seq(50,350,75))
 
 Faceting é o recurso de apresentar diversos gráficos em uma única observação. Para a demonstração do próximo faceting, exibiremos o seguinte:
 
-```{r, fig.asp=0.62,fig.keep = 'last'}
+```{r, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #criando vários gráficos para cada elemento único de carb
 ggplot(data=mtcars,aes(x=mpg,y=disp)) + geom_point() + facet_wrap(~carb)
+```
 
+```{r, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 #o mesmo recurso anterior, mas faceting com am e carb, agora (label em ambos)
 ggplot(data=mtcars,aes(x=mpg,y=disp)) + geom_point() +
 facet_wrap(~carb + am, labeller="label_both")
-
-
 ```
 
 ##Exemplo de exploração de dados
 
 Criaremos agora um dataset chamado `populacao` contendo 400 entradas para homens e mulheres, com médias de pesos entre as pessoas:
 
-```{r message=FALSE}
+```{r message=FALSE,results=TRUE}
 #carregando a biblioteca plyr
 library(plyr)
 
@@ -402,7 +431,7 @@ mu
 
 Criando um gráfico de densidade básico e armazenando em `p`:
 
-```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last',results=TRUE}
 p <- ggplot(populacao, aes(x=weight)) + geom_area(stat = "bin") +
   geom_area(aes(y = ..density..), stat = "bin") +
   geom_area(stat = "bin", fill = "lightblue")
@@ -417,23 +446,35 @@ Fazendo variações:
 #mudando tipos e cores de linhas
 p + geom_area(stat="bin",color="darkblue",fill="lightblue") + geom_vline(aes(xintercept=mean(weight)),
              color="blue", linetype="dashed", size=1)
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 p + geom_area(stat="bin",color="black",fill="lightgrey",linetype="dashed") + geom_vline(aes(xintercept=mean(weight)),
              color="blue", linetype="dashed", size=1)
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 #colorindo os grupos diferentes nos gráficos
 p2 <- ggplot(populacao, aes(x=weight, fill=sex)) +
   geom_area(stat ="bin", alpha=0.6) +
   theme_classic() + geom_vline(data=mu,aes(xintercept=grp.mean,
                                            color=sex),linetype="dashed")
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 #mudando as cores manualmente (três alternativas)
 p2 + scale_fill_manual(values=c("#999999","#E69F00"))
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 p2 + scale_fill_brewer(palette="Dark2")
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 p2 + scale_fill_grey()
+```
 
+```{r message=FALSE, fig.asp=0.62,fig.keep = 'last'}
 #dividindo por facets
 p + facet_grid(sex ~.) + geom_vline(data=mu,aes(xintercept=grp.mean,
                                                 color="red",linetype="dashed"))
