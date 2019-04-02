@@ -5,9 +5,12 @@ navbar:
     - 
       href: index.html
       text: Home
-    - 
-      href: Rbasics.html
-      text: Rbasics
+    - menu:
+        - text: "R"
+        - text: "Basics"
+          href: Rbasics.html
+        - text: "Projects"
+          href: Rprojects.html
     - 
       href: Links.html
       text: Links

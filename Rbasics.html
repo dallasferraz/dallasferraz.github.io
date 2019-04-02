@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R Basics</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Dallas Ferraz</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">R</li>
+    <li>
+      <a href="Rbasics.html">Basics</a>
+    </li>
+    <li>
+      <a href="Rprojects.html">Projects</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Links.html">Links</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Basics</h1>
+
+</div>
+
+
+<p>This is just a sneak peek on forthcoming weeks. Here I’ll post the PT-BR version of the first pages of a R crash course that, hopefully, will help you out to start your career as a data scientist. Enjoy:</p>
+<div id="native-graph-functions-graficos-de-funcoes-nativas" class="section level1">
+<h1>Native graph functions: Gráficos de funções nativas</h1>
+<p>Este capítulo apresentará algumas ferramentas nativas em R responsáveis pela exibição gráfica de alguns conjuntos de dados. Estatística descritiva e a escolha da maneira correta de apresentar os dados são de grande importância para um cientista de dados. Em outros capítulos, serão apresentadas outras maneiras de se criar exibições gráficas mais detalhadas e com outras opções, com pacotes que não são nativos do R.</p>
+<div id="histogramas" class="section level2">
+<h2>Histogramas</h2>
+<p>O dataset <code>trees</code> traz informações sobre algumas árvores. Observando um resumo básico deste dataset, temos:</p>
+<pre><code>##      Girth           Height       Volume     
+##  Min.   : 8.30   Min.   :63   Min.   :10.20  
+##  1st Qu.:11.05   1st Qu.:72   1st Qu.:19.40  
+##  Median :12.90   Median :76   Median :24.20  
+##  Mean   :13.25   Mean   :76   Mean   :30.17  
+##  3rd Qu.:15.25   3rd Qu.:80   3rd Qu.:37.30  
+##  Max.   :20.60   Max.   :87   Max.   :77.00</code></pre>
+<p>A coluna <code>Girth</code> informa o calibre de um tronco, enquanto que <code>Height</code>apresenta a altura da árvore. Por fim, <code>Volume</code> informa, provavelmente em metros cúbicos, a capacidade tridimensional de ocupação da madeira daquela árvore. Apresentaremos agora a representação do dataframe <code>trees</code> em forma de histograma:</p>
+<pre class="r"><code>#histograma da altura das ?rvores com 10 caixinhas de intervalo
+histograma &lt;- hist(trees$Height,breaks=10)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Esta visualização é muito simplificada e pode ser melhorada. Por exemplo, os componentes do histograma poderiam ser azuis e vazados, e os eixos poderiam trazer alguma informação significativa acerca das dimensões examinadas. Também é possível, como visto abaixo, criar um título para o gráfico:</p>
+<pre class="r"><code>#complementando a estética do histograma anterior
+plot(histograma,col=&quot;blue&quot;,density=40,
+     main=&quot;Árvores&quot;, ylab=&quot;Frequência&quot;,xlab=&quot;Altura&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="densidade" class="section level2">
+<h2>Densidade</h2>
+<p>Ainda tomando como base o exemplo anterior, é possível que se deseje conhecer a curva que descreve a distribuição de densidade das alturas das árvores no dataset. Isso é possível através da função <code>density()</code>.</p>
+<pre class="r"><code>#densidade das alturas, representadas por uma linha azul
+densidade &lt;- density(trees$Height)
+plot(densidade,col=&quot;blue&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="sobreposicao" class="section level2">
+<h2>Sobreposição</h2>
+<p>Em uma situação em que seja necessário se comparar mais de uma representação, o recurso de sobreposição é indispensável. Tomemos como exemplo o caso anterior, que foi representado tanto em um gráfico de histograma quanto por um gráfico de densidade. Em R, é possível sobrepor as duas exibições utilizando a função <code>par()</code>.</p>
+<pre class="r"><code>#sobreposição das informações (histograma como primeira camada)
+plot(histograma,col=&quot;red&quot;,density=40,
+     main=&quot;Árvores&quot;, ylab=&quot;Frequência&quot;,xlab=&quot;Altura&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>par(new=TRUE)</code></pre>
+<pre class="r"><code>#apagando as legendas e o título do gráfico de densidade
+plot(densidade,col=&quot;blue&quot;,xaxt=&#39;n&#39;,yaxt=&#39;n&#39;,ann=FALSE)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-dispersao" class="section level2">
+<h2>Gráfico de dispersão</h2>
+<p>O gráfico de pontos, ou dispersão, pode ser usado para melhor representar as observações em duas dimensões. Esse recurso permite enxergar possíveis tendências, correlações e a sua magnitude. No R, a função <code>plot()</code> pode exercer nativamente esse papel, juntamente com alguns argumentos extras:</p>
+<pre class="r"><code>#gráfico de dispersão do calibre das árvores versus volume
+plot(trees$Girth,trees$Volume,
+     main=&quot;Árvores&quot;,ylab=&quot;circunferência&quot;,xlab=&quot;volume&quot;,col=&quot;blue&quot;,
+     pch=20)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Para uma visão geral do dataset <code>trees</code>, o gráfico de dispersão também é muito útil, pois é possível enxergar a correlação de todas as variáveis com elas mesmas, em um grid amplo, utilizando a função <code>plot()</code> sem nenhum argumento, além do dataset em questão:</p>
+<pre class="r"><code>#plotando todas as correlações de todas as variáveis de uma só vez
+plot(trees)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Também é possível dividir a tela em quantos espaços forem necessários, para uma exibição de diferentes tipos de gráficos:</p>
+<pre class="r"><code>#dividindo a tela para os gráficos que lhe interessam (nesse caso, dois)
+split.screen(figs=c(1,2))</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+<pre class="r"><code>#escolhendo o gráfico para a seção 1 da tela (nesse caso, o histograma)
+screen(1)
+plot(histograma)
+
+#escolhendo o gráfico para a seção 2 da tela (nesse caso, gráfico de densidade)
+screen(2)
+plot(densidade)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="boxplot" class="section level2">
+<h2>Boxplot</h2>
+<p>Uma outra representação de dados agregados muito utilizada é o boxplot. Com ele, é possível visualizar não apenas a distribuição dos dados, mas também a tendência de centralidade e a existência ou não de outliers no dataset.</p>
+<pre class="r"><code>#boxplot com visualizaÇão geral mais amigável de todo o conteúdo
+boxplot(trees,horizontal=TRUE)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-barras" class="section level2">
+<h2>Gráfico de barras</h2>
+<p>Para a exibição em barras, é necessário que se agregue os dados de uma forma específica. Tomemos como exemplo o dataset <code>pop</code>, que pode ser visualizado de maneira geral abaixo:</p>
+<pre class="r"><code>#criação de um dataframe chamado pop
+pop &lt;- as.data.frame(matrix(c(13,45,9,17,17,21,&quot;A&quot;,&quot;B&quot;,&quot;A&quot;,&quot;C&quot;,&quot;A&quot;,&quot;B&quot;),
+                            ncol=2,nrow=6))
+
+colnames(pop) &lt;- c(&quot;quantidade&quot;,&quot;cidade&quot;)
+
+pop</code></pre>
+<pre><code>##   quantidade cidade
+## 1         13      A
+## 2         45      B
+## 3          9      A
+## 4         17      C
+## 5         17      A
+## 6         21      B</code></pre>
+<pre class="r"><code>#gráfico de barras de habitantes por cidade (com agregação dos dados)
+hab &lt;- aggregate(. ~cidade,data=pop,sum) </code></pre>
+<pre class="r"><code>#criação do gráfico de barras e encapsulamento por box()
+barplot(hab$quantidade,col=gray.colors(3),xlab=&quot;cidade&quot;,ylab=&quot;total&quot;,
+        names.arg=hab$cidade)
+
+box()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-setores" class="section level2">
+<h2>Gráfico de setores</h2>
+<p>Também conhecido informalmente como “gráfico de pizza”, pode ser facilmente plotado em R através da seguinte função, juntamente com uma legenda:</p>
+<pre class="r"><code>#gráfico de setores (usando os dados agregados)
+pie(hab$quantidade,main=&quot;Cidades&quot;,col=c(4:6),labels=NA)
+
+#legenda
+legend(&quot;bottomright&quot;,legend=hab$cidade,cex=1,fill=c(4:6))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+</div>
+<div id="ggplot" class="section level1">
+<h1>ggplot</h1>
+<p>As funções nativas do R são muito versáteis e conseguem cobrir muitas necessidades de um analista de dados. Contudo, há também uma abordagem diferente, através do pacote <code>ggplot2</code>. Este pacote pode ser facilmente encontrado, instalado e carregado:</p>
+<pre class="r"><code>install.packages(&quot;ggplot2&quot;)
+library(ggplot2)</code></pre>
+<p>A vantagem desse pacote é que ele possibilita a construção dos gráficos em sete diferentes camadas, com dependência entre elas: a segunda só pode ser construida se existir a primeira, a terceira só pode ser construida se existir a segunda, e assim por diante.</p>
+<p>A primeira camada é responsável pelo conteúdo dos dados, enquanto que a segunda diz respeito à primeira etapa de visualização (escala) do gráfico. A terceira descreve a geometria de como os dados serão apresentados, ao passo que a quarta camada possibilita a visualização de várias facetas diferentes do mesmo dataset. A quinta camada possibilita a análise estatística, a sexta delimita as regiões relevantes das coordenadas do gráfico e, por fim, a sétima camada apresenta o tema geral do trabalho. Todas essas etapas poderão ser vistas nos exemplos seguintes.</p>
+<div id="histograma" class="section level2">
+<h2>Histograma</h2>
+<p>Utilizaremos o dataset nativo <code>iris</code>, que contém informações sobre flores.</p>
+<pre class="r"><code>#carregando a base de dados dentro de um dataframe
+iris &lt;- iris</code></pre>
+<pre class="r"><code>#resumo dos tipos de variáveis
+str(iris)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre class="r"><code>#sumário das entradas na base de dados
+summary(iris)</code></pre>
+<pre><code>##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## </code></pre>
+<p>O <code>ggplot2</code> funciona com a adição de funções responsáveis pelas camadas. Exibiremos agora informações simples sobre o tamanho das sépalas das flores em histograma.</p>
+<pre class="r"><code>#visualizando os dados das flores em 10 bins vermelhos
+ggplot(data=iris,aes(x=Sepal.Length)) +
+geom_histogram(color=&quot;black&quot;,fill=&quot;red&quot;,bins=10)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>A função <code>ggplot()</code> indica ao R qual o dataset utilizado e qual trecho do dataset será plotado. A função <code>geom_histogram()</code> traz a informação de que será utilizado um histograma, e nesse exemplo os bins são de cor preta com preenchimento vermelho e a quantidade escolhida foi de 10.</p>
+<p>Contudo, se houvesse a necessidade de se colorir cada um dos bins de acordo com a proporção da quantidade de espécies em cada m deles, as especificações podem ser ajustadas dentro da função <code>aes()</code>, dentro de <code>ggplot()</code>.</p>
+<pre class="r"><code>ggplot(data=iris,aes(x=Sepal.Length,color=Species,fill=Species)) +
+geom_histogram(color=&quot;black&quot;,bins=10)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="densidade-1" class="section level2">
+<h2>Densidade</h2>
+<p>Também é possível visualizar a distribuição de densidade dos dados através da função <code>geom_density()</code>. No exemplo seguinte, continuaremos a observar a distribuição de densidade do tamanho das sépalas, porém em uma distribuição de densidade por espécies, em curvas de contorno preto e preenchimento de 70% das cores relacionadas às espécies. Também é possível editar as legendas e os títulos do gráfico, com a função <code>labs()</code>:</p>
+<pre class="r"><code>ggplot(data=iris,aes(x=Sepal.Length,color=Species,fill=Species)) +
+geom_density(color=&quot;black&quot;, alpha = 0.7) +
+labs(title=&quot;Curva de densidade&quot;,x=&quot;Tamanho das sépalas&quot;,y=&quot;Densidade&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-barras-1" class="section level2">
+<h2>Gráfico de barras</h2>
+<p>Para a análise com gráfico de barras, utilizaremos a função <code>geom_bar()</code>. Exibiremos o dataset <code>mpg</code>, que contém dados referentes a vários tipos de carros.</p>
+<pre class="r"><code>mpg &lt;- mpg
+
+str(mpg)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    234 obs. of  11 variables:
+##  $ manufacturer: chr  &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; ...
+##  $ model       : chr  &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; ...
+##  $ displ       : num  1.8 1.8 2 2 2.8 2.8 3.1 1.8 1.8 2 ...
+##  $ year        : int  1999 1999 2008 2008 1999 1999 2008 1999 1999 2008 ...
+##  $ cyl         : int  4 4 4 4 6 6 6 4 4 4 ...
+##  $ trans       : chr  &quot;auto(l5)&quot; &quot;manual(m5)&quot; &quot;manual(m6)&quot; &quot;auto(av)&quot; ...
+##  $ drv         : chr  &quot;f&quot; &quot;f&quot; &quot;f&quot; &quot;f&quot; ...
+##  $ cty         : int  18 21 20 21 16 18 18 18 16 20 ...
+##  $ hwy         : int  29 29 31 30 26 26 27 26 25 28 ...
+##  $ fl          : chr  &quot;p&quot; &quot;p&quot; &quot;p&quot; &quot;p&quot; ...
+##  $ class       : chr  &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; ...</code></pre>
+<pre class="r"><code>summary(mpg)</code></pre>
+<pre><code>##  manufacturer          model               displ            year     
+##  Length:234         Length:234         Min.   :1.600   Min.   :1999  
+##  Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999  
+##  Mode  :character   Mode  :character   Median :3.300   Median :2004  
+##                                        Mean   :3.472   Mean   :2004  
+##                                        3rd Qu.:4.600   3rd Qu.:2008  
+##                                        Max.   :7.000   Max.   :2008  
+##       cyl           trans               drv                 cty       
+##  Min.   :4.000   Length:234         Length:234         Min.   : 9.00  
+##  1st Qu.:4.000   Class :character   Class :character   1st Qu.:14.00  
+##  Median :6.000   Mode  :character   Mode  :character   Median :17.00  
+##  Mean   :5.889                                         Mean   :16.86  
+##  3rd Qu.:8.000                                         3rd Qu.:19.00  
+##  Max.   :8.000                                         Max.   :35.00  
+##       hwy             fl               class          
+##  Min.   :12.00   Length:234         Length:234        
+##  1st Qu.:18.00   Class :character   Class :character  
+##  Median :24.00   Mode  :character   Mode  :character  
+##  Mean   :23.44                                        
+##  3rd Qu.:27.00                                        
+##  Max.   :44.00</code></pre>
+<p>Os argumentos dessa função para exibição de gráfico de barras fazem referência ao tipo de estatística exibida (que será tratado mais adiante) e ao contorno das barras. A função <code>coord_flip()</code> rotaciona em 90 graus a exibição das barras, para o eixo horizontal.</p>
+<pre class="r"><code>#gráfico de barras para MPG
+ggplot(data=mpg,aes(x=class,color=class,fill=class)) + 
+geom_bar(color=&quot;black&quot;) + coord_flip()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Para a exibição em gráfico de barras dos dados de acordo com uma variável categórica, é necessário primeiramente a criação de um dataframe novo, que será chamado de <code>df</code>. Nele, será armazendo o valor da média da grandeza <code>displ</code> (“disponibilidade”, em tradução livre) de cada um dos modelos de carros. Para tanto, será carregado o pacote <code>tidyverse</code>, explicado em outro capítulo em mais detalhes.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>Com este pacote, é possível fazer uso não apenas de funções que auxiliam na criação de novas colunas e variáveis baseadas em valores já existentes, mas também do operador <code>%&gt;%</code>, ou pipeline. A utilização deste operador é explicada em detalhes em outro capítulo.</p>
+<pre class="r"><code>#ordenando por uma variável categórica
+df &lt;- mpg %&gt;% group_by(class) %&gt;% dplyr::summarise(mean=mean(displ)) %&gt;%
+arrange(-mean) %&gt;% mutate(class = factor(class,levels=class))</code></pre>
+<p>No código, o dataframe <code>df</code> foi criado, tendo como base o dataframe anterior <code>mpg</code>. Agrupou-se por classe de carro através da função <code>group_by()</code> e aplicou-se a função <code>summarise()</code> do pacote <code>dplyr</code> (componente do <code>tidyverse</code>) na variável <code>displ</code> do dataset <code>mpg</code>. Mais especificamente, criou-se aí a variável <code>mean</code> responsável por trazer a informação da média de cada classe agrupada, através da função <code>mean()</code>. Em seguida, ordenou-se da menor para a maior com a função <code>arrange()</code> e o operador lógico <code>-</code>. Por fim, a função <code>mutate()</code>foi aplicada para a criação de mais uma variável no dataset <code>df</code>: a variável que continha os nomes dos tipos de carros ordenados pelos fatores da variável <code>class</code> do dataset <code>mpg</code>. O dataset pode ser visualizado a seguir:</p>
+<pre class="r"><code>df</code></pre>
+<pre><code>## # A tibble: 7 x 2
+##   class       mean
+##   &lt;fct&gt;      &lt;dbl&gt;
+## 1 2seater     6.16
+## 2 suv         4.46
+## 3 pickup      4.42
+## 4 minivan     3.39
+## 5 midsize     2.92
+## 6 subcompact  2.66
+## 7 compact     2.33</code></pre>
+<p>A partir desse ponto, é possível exibir os dados anteriores em um gráfico. O dataset será o <code>df</code>, no eixo X será exibido <code>class</code> e no eixo Y <code>mean</code>. As cores serão ajustadas de acordo com as classes de carro, tal como o preenchimento. A partir disso, os argumentos da função <code>geom_bar()</code> dizem respeito à natureza estatística da exibição e da cor do contorno das barras. Também será adicionado uma função para o título do eixo X e outra para o eixo Y. Por fim, a função <code>geom_text()</code> será responsável pelo ajuste estético da quantidade de casas decimais exibidas, da altura dos valores dentro de cada barra, da cor do texto, exibição de negrito e tamanho da fonte.</p>
+<pre class="r"><code>#exibindo a etapa anterior em gráfico
+ggplot(data=df,aes(x=class,y=mean,color=class,fill=class)) +
+geom_bar(stat=&quot;identity&quot;,color=&quot;black&quot;) + xlab(&quot;classe&quot;) + ylab(&quot;media&quot;) +
+geom_text(aes(label=sprintf(&quot;%0.2f&quot;,round(mean,digits=2))),
+          vjust=1.6,color=&quot;white&quot;,fontface=&quot;bold&quot;,size=4) </code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>Também é possível exibir o gráfico de barras empilhado ou lado a lado por classes.</p>
+<pre class="r"><code>#exibindo gráfico de barras empilhados por classe, pelo tipo de tração
+ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
+geom_bar(stat=&quot;identity&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<pre class="r"><code>#exibindo gráfico de barras lado a lado por classe, pelo tipo de tração
+ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
+  geom_bar(stat=&quot;identity&quot;, position=position_dodge())</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+</div>
+<div id="boxplot-1" class="section level2">
+<h2>Boxplot</h2>
+<p>A exibição de dados em forma de boxplot segue a mesma lógica das exibições anteriores de histograma e de gráfico de barras: Utiliza-se primeiramente o <code>ggplot()</code> para a definição das primeiras camadas e a função <code>geom_boxplot()</code> para a escolha do tipo de gráfico. Para o dataset nativo <code>mtcars</code> temos:</p>
+<pre class="r"><code>mtcars &lt;- mtcars
+
+str(mtcars)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    32 obs. of  11 variables:
+##  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+##  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+##  $ disp: num  160 160 108 258 360 ...
+##  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+##  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+##  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+##  $ qsec: num  16.5 17 18.6 19.4 17 ...
+##  $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+##  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+##  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+##  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
+<pre class="r"><code>summary(mtcars)</code></pre>
+<pre><code>##       mpg             cyl             disp             hp       
+##  Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0  
+##  1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5  
+##  Median :19.20   Median :6.000   Median :196.3   Median :123.0  
+##  Mean   :20.09   Mean   :6.188   Mean   :230.7   Mean   :146.7  
+##  3rd Qu.:22.80   3rd Qu.:8.000   3rd Qu.:326.0   3rd Qu.:180.0  
+##  Max.   :33.90   Max.   :8.000   Max.   :472.0   Max.   :335.0  
+##       drat             wt             qsec             vs        
+##  Min.   :2.760   Min.   :1.513   Min.   :14.50   Min.   :0.0000  
+##  1st Qu.:3.080   1st Qu.:2.581   1st Qu.:16.89   1st Qu.:0.0000  
+##  Median :3.695   Median :3.325   Median :17.71   Median :0.0000  
+##  Mean   :3.597   Mean   :3.217   Mean   :17.85   Mean   :0.4375  
+##  3rd Qu.:3.920   3rd Qu.:3.610   3rd Qu.:18.90   3rd Qu.:1.0000  
+##  Max.   :4.930   Max.   :5.424   Max.   :22.90   Max.   :1.0000  
+##        am              gear            carb      
+##  Min.   :0.0000   Min.   :3.000   Min.   :1.000  
+##  1st Qu.:0.0000   1st Qu.:3.000   1st Qu.:2.000  
+##  Median :0.0000   Median :4.000   Median :2.000  
+##  Mean   :0.4062   Mean   :3.688   Mean   :2.812  
+##  3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.000  
+##  Max.   :1.0000   Max.   :5.000   Max.   :8.000</code></pre>
+<p>Exibindo a variável de fatores <code>cyl</code> no eixo X e a variável <code>disp</code> no eixo Y, com coloração para cada uma das classes de cilindradas, temos:</p>
+<pre class="r"><code>#boxplot das cilindradas dos carros
+mtcars$cyl = factor(mtcars$cyl)
+ggplot(data=mtcars, aes(x=cyl, y=disp,fill=cyl)) + geom_boxplot() +
+xlab(&quot;cilindradas&quot;) + ylab(&quot;disponibilidade&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-pontos" class="section level2">
+<h2>Gráfico de pontos</h2>
+<p>Utilizaremos a base de dados <code>iris</code> para a exibição do gráfico de pontos. Este tipo de gráfico é mais utilizado quando há uma quantidade consideravelmente grande de dados e deseja-se saber se há uma correlação (e sua intensidade) entre as variáveis. No pacote <code>ggplot</code>, os gráficos de pontos estão disponíveis através da função <code>geom_point()</code>.</p>
+<pre class="r"><code>#gráfico de pontos da tamanho da sépala (eixo x) pela largura da sépala (eixo y)
+ggplot(data=iris,aes(x=Sepal.Length,y=Sepal.Width,shape=Species,color=Species)) +
+geom_point() + xlab(&quot;Altura&quot;) + ylab(&quot;Largura&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>Para o dataset de carros:</p>
+<pre class="r"><code>#gráfico de pontos de uma parte específica dos carros das cilindradas
+ggplot(data=subset(mtcars,am==0),aes(x=mpg,y=disp,color=cyl)) + geom_point()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Também é possível armazenar uma parte do plot em uma lista e criar variações sobre ela. Como exemplo, o gráfico de pontos com curva suavizada no dataset de carros, dentro da lista <code>grafico</code>:</p>
+<pre class="r"><code>#gráfico de pontos suavizado e com linha de acompanhamento dos cavalo-vapor
+grafico &lt;- ggplot(data = mtcars, aes(x = mpg,y = disp, color = hp))  + geom_point(size=2.5)  +
+geom_smooth() + geom_line(aes(y=hp))
+
+grafico</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com tema cinzento
+grafico + labs(title=&quot;Gráfico&quot;) +
+theme(plot.title=element_text(color=&quot;blue&quot;,size=17),
+      plot.background=element_rect(&quot;grey&quot;))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com um tema pré-pronto
+grafico + theme_dark()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que sem linhas
+grafico + theme(panel.background= element_blank())</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que mais enxuto ainda
+grafico + theme(axis.text = element_blank(),axis.text.x= element_blank(),
+                axis.text.y= element_blank())</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com a legenda em outro lugar
+grafico + theme(legend.position=&quot;top&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anteiror, só que com mudança na escala de cores
+grafico + scale_color_gradient(low=&quot;yellow&quot;,high=&quot;red&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com mais granularidade na escala de cores
+grafico + scale_color_gradient2(low=&quot;yellow&quot;,mid=&quot;green&quot;,high=&quot;red&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com mudança de escala
+grafico + scale_color_continuous(name = &quot;cavalo-vapor&quot;,
+breaks = seq(50,350,75), labels = paste(seq(50,350,75),&quot;hps&quot;))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<pre class="r"><code>#mesma coisa do anterior, só que com escala de cores diferente
+grafico + scale_color_gradient(low = &quot;blue&quot;,high = &quot;red&quot;) +
+scale_color_continuous( breaks = seq(50,350,75))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+</div>
+<div id="faceting" class="section level2">
+<h2>Faceting</h2>
+<p>Faceting é o recurso de apresentar diversos gráficos em uma única observação. Para a demonstração do próximo faceting, exibiremos o seguinte:</p>
+<pre class="r"><code>#criando vários gráficos para cada elemento único de carb
+ggplot(data=mtcars,aes(x=mpg,y=disp)) + geom_point() + facet_wrap(~carb)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<pre class="r"><code>#o mesmo recurso anterior, mas faceting com am e carb, agora (label em ambos)
+ggplot(data=mtcars,aes(x=mpg,y=disp)) + geom_point() +
+facet_wrap(~carb + am, labeller=&quot;label_both&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+</div>
+<div id="exemplo-de-exploracao-de-dados" class="section level2">
+<h2>Exemplo de exploração de dados</h2>
+<p>Criaremos agora um dataset chamado <code>populacao</code> contendo 400 entradas para homens e mulheres, com médias de pesos entre as pessoas:</p>
+<pre class="r"><code>#carregando a biblioteca plyr
+library(plyr)
+
+#criando dataframe com dados
+populacao &lt;- data.frame(
+  sex=factor(rep(c(&quot;F&quot;, &quot;M&quot;), each=200)),
+  weight=round(c(rnorm(200, mean=55, sd=5),
+                 rnorm(200, mean=65, sd=5)))
+)
+
+#exibição de 20 valores aleatórios
+sample_n(populacao,20,replace=FALSE)</code></pre>
+<pre><code>##     sex weight
+## 271   M     61
+## 255   M     66
+## 173   F     59
+## 68    F     60
+## 257   M     70
+## 16    F     53
+## 334   M     62
+## 324   M     67
+## 222   M     71
+## 282   M     67
+## 40    F     52
+## 392   M     63
+## 66    F     48
+## 291   M     69
+## 166   F     45
+## 81    F     46
+## 288   M     65
+## 145   F     53
+## 164   F     57
+## 195   F     66</code></pre>
+<p>É importante criar um dataframe, <code>mu</code>, contendo a média de cada uma das populações por sexo, para a criação de uma linha pontilhada no gráfico:</p>
+<pre class="r"><code>#calculando a média de cada grupo
+mu &lt;- ddply(populacao,&quot;sex&quot;,summarise,grp.mean=mean(weight))
+
+mu</code></pre>
+<pre><code>##   sex grp.mean
+## 1   F   55.265
+## 2   M   65.200</code></pre>
+<p>Criando um gráfico de densidade básico e armazenando em <code>p</code>:</p>
+<pre class="r"><code>p &lt;- ggplot(populacao, aes(x=weight)) + geom_area(stat = &quot;bin&quot;) +
+  geom_area(aes(y = ..density..), stat = &quot;bin&quot;) +
+  geom_area(stat = &quot;bin&quot;, fill = &quot;lightblue&quot;)
+
+p + geom_vline(aes(xintercept=mean(weight)),
+             color=&quot;blue&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p>Fazendo variações:</p>
+<pre class="r"><code>#mudando tipos e cores de linhas
+p + geom_area(stat=&quot;bin&quot;,color=&quot;darkblue&quot;,fill=&quot;lightblue&quot;) + geom_vline(aes(xintercept=mean(weight)),
+             color=&quot;blue&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<pre class="r"><code>p + geom_area(stat=&quot;bin&quot;,color=&quot;black&quot;,fill=&quot;lightgrey&quot;,linetype=&quot;dashed&quot;) + geom_vline(aes(xintercept=mean(weight)),
+             color=&quot;blue&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<pre class="r"><code>#colorindo os grupos diferentes nos gráficos
+p2 &lt;- ggplot(populacao, aes(x=weight, fill=sex)) +
+  geom_area(stat =&quot;bin&quot;, alpha=0.6) +
+  theme_classic() + geom_vline(data=mu,aes(xintercept=grp.mean,
+                                           color=sex),linetype=&quot;dashed&quot;)</code></pre>
+<pre class="r"><code>#mudando as cores manualmente (três alternativas)
+p2 + scale_fill_manual(values=c(&quot;#999999&quot;,&quot;#E69F00&quot;))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<pre class="r"><code>p2 + scale_fill_brewer(palette=&quot;Dark2&quot;)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<pre class="r"><code>p2 + scale_fill_grey()</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<pre class="r"><code>#dividindo por facets
+p + facet_grid(sex ~.) + geom_vline(data=mu,aes(xintercept=grp.mean,
+                                                color=&quot;red&quot;,linetype=&quot;dashed&quot;))</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p>Criaremos um objeto, <code>dat</code>, contendo a curva de densidade dos pesos das pessoas, para plotar a área abaixo de uma certa região da curva:</p>
+<pre class="r"><code>#curva de densidade dos pesos das pessoas
+dat &lt;- with(density(populacao$weight), data.frame(x, y))
+
+#plotando área abaixo da curva (x entre 65 e70)
+ggplot(data = dat, mapping = aes(x = x, y = y)) +
+  geom_line()+
+  geom_area(mapping = aes(x = ifelse(x&gt;65 &amp; x&lt; 70 , x, 0)), fill = &quot;red&quot;) +
+  xlim(30, 80)</code></pre>
+<p><img src="Rbasics_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+</div>
+</div>
+<div id="data-frames" class="section level1">
+<h1>Data frames</h1>
+<div id="disposicoes-gerais" class="section level2">
+<h2>Disposições gerais</h2>
+<p>Data frames são estruturas versáteis e com muitas funcionalidades em R. Possuem bastante semelhança com matrizes, com a diferença de que algumas funções, tanto nativas quanto de pacotes específicos, funcionam unicamente neles. Como exemplo, será criado um data frame de 5 colunas e 100 entradas, através da função nativa <code>data.frame()</code>:</p>
+<pre class="r"><code>#criando um dataframe com valores aleatórios
+mydata = data.frame(Q1 = sample(1:6, 100, replace = TRUE),
+                    Q2 = sample(1:6, 100, replace = TRUE),
+                    Q3 = sample(1:6, 100, replace = TRUE),
+                    Q4 = sample(1:6, 100, replace = TRUE), 
+                    Age = sample(1:3, 100, replace = TRUE))</code></pre>
+<p>Distribuindo propositalmente valores faltantes no data frame:</p>
+<p>Visualizando um breve resumo sobre o data frame:</p>
+<pre class="r"><code>##breve resumo estatístico
+summary(mydata)</code></pre>
+<pre><code>##        Q1              Q2              Q3              Q4       
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000  
+##  Median :3.000   Median :4.000   Median :3.000   Median :4.000  
+##  Mean   :3.418   Mean   :3.687   Mean   :3.296   Mean   :3.704  
+##  3rd Qu.:5.000   3rd Qu.:5.000   3rd Qu.:4.000   3rd Qu.:5.000  
+##  Max.   :6.000   Max.   :6.000   Max.   :6.000   Max.   :6.000  
+##  NA&#39;s   :2       NA&#39;s   :1       NA&#39;s   :2       NA&#39;s   :2      
+##       Age      
+##  Min.   :1.00  
+##  1st Qu.:1.00  
+##  Median :2.00  
+##  Mean   :1.91  
+##  3rd Qu.:3.00  
+##  Max.   :3.00  
+## </code></pre>
+<p>Também é possível visualizar colunas específicas, como a terceira coluna em questão:</p>
+<pre class="r"><code>summary(mydata$Q3)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   1.000   2.000   3.000   3.296   4.000   6.000       2</code></pre>
+<p>Outra informação possível de ser extraída é a quantidade de colunas e de entradas, caso não se saiba:</p>
+<pre class="r"><code>##quantidade de entradas num data frame
+nrow(mydata)</code></pre>
+<pre><code>## [1] 100</code></pre>
+<pre class="r"><code>##quantidade de variáveis num data frame
+ncol(mydata)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<p>Ainda um outro tipo de informação que pode ser inferida do data frame é a sua estrutura de composição, através da função nativa <code>str()</code>. Esta função descreve o tipo de cada uma das variáveis:</p>
+<pre class="r"><code>str(mydata)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    100 obs. of  5 variables:
+##  $ Q1 : int  2 3 4 6 5 NA 5 5 4 4 ...
+##  $ Q2 : int  6 5 5 1 6 5 3 3 6 5 ...
+##  $ Q3 : int  NA 3 3 2 6 5 4 4 1 6 ...
+##  $ Q4 : int  2 2 4 4 6 2 6 2 1 1 ...
+##  $ Age: int  3 2 2 2 2 2 1 1 1 1 ...</code></pre>
+<p>Também é possível visualizar apenas as primeiras X entradas ou as últimas Y entradas de um data frame através das funções <code>head()</code> e <code>tail()</code>:</p>
+<pre class="r"><code>#primeiras 5 entradas
+head(mydata, n=5)</code></pre>
+<pre><code>##   Q1 Q2 Q3 Q4 Age
+## 1  2  6 NA  2   3
+## 2  3  5  3  2   2
+## 3  4  5  3  4   2
+## 4  6  1  2  4   2
+## 5  5  6  6  6   2</code></pre>
+<pre class="r"><code>#todas menos as 50 primeiras entradas
+tail(mydata, n=-50)</code></pre>
+<pre><code>##     Q1 Q2 Q3 Q4 Age
+## 51   6  1  4  5   2
+## 52   3  5  2  2   1
+## 53   5  4  1  3   1
+## 54   3  6  3  2   2
+## 55   2  2 NA  5   2
+## 56   1  4  5  3   2
+## 57   6  1  2  6   3
+## 58   2  6  2  6   3
+## 59   6  5  4  4   2
+## 60   5  3  4  4   1
+## 61   2  1  5  2   3
+## 62   2  4  3  5   1
+## 63   2  5  6  1   3
+## 64   4  6  5  3   2
+## 65   1  6  4  3   2
+## 66   3  2  6  6   2
+## 67   4  2  5  5   2
+## 68   4  1  1  6   3
+## 69   3  4  3  1   1
+## 70   3  4  1  1   2
+## 71   2  1  3  4   1
+## 72   3  2  4  3   1
+## 73   6  6  2  4   1
+## 74   1  6  2  1   1
+## 75   4  1  6  4   2
+## 76   1  3  3  1   1
+## 77   6  5  4  6   3
+## 78   6  2  2  1   3
+## 79   5  3  1  3   1
+## 80  NA  1  6  6   1
+## 81   6  2  4  4   2
+## 82   2  6  1  6   1
+## 83   5  2  1  3   2
+## 84   2  2  2  5   2
+## 85   6  4  2  3   3
+## 86   6  3  2  5   2
+## 87   5  4  2  5   2
+## 88   1  5  6  6   2
+## 89   2  6  3  5   2
+## 90   5  1  4  2   1
+## 91   6  5  6  5   3
+## 92   1  4  2  3   1
+## 93   3  1  2  3   3
+## 94   2  6  3  4   3
+## 95   2  4  1  2   1
+## 96   3  2  4  5   3
+## 97   4  1  6  5   3
+## 98   2  2  4  5   3
+## 99   1  1  1  4   1
+## 100  1  4  4  4   3</code></pre>
+</div>
+<div id="valores-aleatorios" class="section level2">
+<h2>Valores aleatórios</h2>
+<p>Há diversas maneiras de se gerar e se selecionar valores aleatórios em um data frame. Utilizando a biblioteca <code>dplyr</code>, um analista ou um cientista de dados pode fazer uso de funções que aceleram esse processo, pois as funções nativas do R executariam a mesma tarefa com mais passos. Carregando-se a biblioteca:</p>
+<p>Selecionando valores aleatoriamente com a função <code>sample_n()</code> do pacote <code>dplyr</code>:</p>
+<pre class="r"><code>#selecionando 11 entradas aleatoriamente
+sample_n(mydata,11)</code></pre>
+<pre><code>##    Q1 Q2 Q3 Q4 Age
+## 74  1  6  2  1   1
+## 94  2  6  3  4   3
+## 3   4  5  3  4   2
+## 75  4  1  6  4   2
+## 1   2  6 NA  2   3
+## 90  5  1  4  2   1
+## 60  5  3  4  4   1
+## 54  3  6  3  2   2
+## 45  3  2  3  4   1
+## 57  6  1  2  6   3
+## 61  2  1  5  2   3</code></pre>
+<p>Também é possível selecionar aleatoriamente através de percentuais, com a função <code>sample_frac()</code>:</p>
+<pre class="r"><code>#selecionando 43% das entradas aleatoriamente
+sample_frac(mydata, 0.43)</code></pre>
+<pre><code>##    Q1 Q2 Q3 Q4 Age
+## 5   5  6  6  6   2
+## 32  3  4  3  5   3
+## 20  3  5  1  5   1
+## 24  5  6  4  5   3
+## 87  5  4  2  5   2
+## 85  6  4  2  3   3
+## 61  2  1  5  2   3
+## 3   4  5  3  4   2
+## 25  3  6  6  6   3
+## 11  6  1  4  4   1
+## 68  4  1  1  6   3
+## 76  1  3  3  1   1
+## 84  2  2  2  5   2
+## 16  1  1  2  3   2
+## 39  2  6  4  4   1
+## 99  1  1  1  4   1
+## 63  2  5  6  1   3
+## 10  4  5  6  1   1
+## 43  2  3  2  1   3
+## 71  2  1  3  4   1
+## 37  2  5  3  5   3
+## 35  6  1  5  6   1
+## 66  3  2  6  6   2
+## 60  5  3  4  4   1
+## 78  6  2  2  1   3
+## 56  1  4  5  3   2
+## 41  5  2  4  6   3
+## 8   5  3  4  2   1
+## 81  6  2  4  4   2
+## 58  2  6  2  6   3
+## 15  6  5  2  3   3
+## 2   3  5  3  2   2
+## 54  3  6  3  2   2
+## 74  1  6  2  1   1
+## 89  2  6  3  5   2
+## 47  3  5  5  2   3
+## 88  1  5  6  6   2
+## 17  6  5  1 NA   3
+## 19  5  4  6  3   3
+## 1   2  6 NA  2   3
+## 18  4  3  1  1   1
+## 75  4  1  6  4   2
+## 42  5  5  3  6   1</code></pre>
+</div>
+<div id="valores-nao-registrados-e-substituidos" class="section level2">
+<h2>Valores não registrados e substituídos</h2>
+<p>Por alguma razão, algumas entradas deixam de preencher valores para algumas das variáveis/colunas, seja por falta de atenção, ruído, ausência de valores em si, intenção etc. Com algumas funções no R, é possível ter uma visão sobre as condições de um data frame, em relação aos valores não registrados:</p>
+<pre class="r"><code>#número de valores ausentes na coluna
+colSums(is.na(mydata))</code></pre>
+<pre><code>##  Q1  Q2  Q3  Q4 Age 
+##   2   1   2   2   0</code></pre>
+<pre class="r"><code>#valores faltantes por entrada
+rowSums(is.na(mydata))</code></pre>
+<pre><code>##   [1] 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
+##  [36] 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+##  [71] 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
+<pre class="r"><code>#número de valores ausentes em uma variável específica (nesse caso, na variável Q1)
+sum(is.na(mydata$Q1))</code></pre>
+<pre><code>## [1] 2</code></pre>
+<p>Há também a possibilidade de se substituir valores em entradas. Isso pode ser de interesse do analista ou do cientista de dados quando houver a necessidade de se preencher valores não registrados ou mesmo modificar a representação de um tipo de registro por algo mais significativo (por exemplo, em uma coluna que registre pronomes de tratamento, “senhor” e “Sr.” representam, em algumas análises, a mesma informação. Neste caso, substituir ambos pela forma “SENHOR” seria ideal para a contagem padronizada de quantas entradas do determinado data frame utilizam este tipo de pronome de tratamento).</p>
+<pre class="r"><code>#substituindo um valor específico do data frame (onde houver 1 ou 2 em Q1, vira 6)
+mydata$Q1[mydata$Q1==1|mydata$Q1==2] &lt;- 6</code></pre>
+<p>Também há a possibilidade de exclusão de uma variável do data frame:</p>
+<pre class="r"><code>#deletando uma coluna de um data frame (a terceira)
+mydata$Q3 &lt;- NULL
+
+head(mydata)</code></pre>
+<pre><code>##   Q1 Q2 Q4 Age
+## 1  6  6  2   3
+## 2  3  5  2   2
+## 3  4  5  4   2
+## 4  6  1  4   2
+## 5  5  6  6   2
+## 6 NA  5  2   2</code></pre>
+</div>
+<div id="selecao" class="section level2">
+<h2>Seleção</h2>
+<p>Filtrar e selecionar são duas atividades importantes para a análise dos dados presentes em um data frame. O resultado final pode ser apresentado apenas em console ou também guardado em um outro data frame.</p>
+<pre class="r"><code>#selecionar as oito primeiras entradas (todas as colunas)
+selecao &lt;- mydata[1:8,]
+
+selecao</code></pre>
+<pre><code>##   Q1 Q2 Q4 Age
+## 1  6  6  2   3
+## 2  3  5  2   2
+## 3  4  5  4   2
+## 4  6  1  4   2
+## 5  5  6  6   2
+## 6 NA  5  2   2
+## 7  5  3  6   1
+## 8  5  3  2   1</code></pre>
+<p>Também é possível fazer este procedimento utilizando-se de regras condicionais:</p>
+<pre class="r"><code>#selecionar as entradas onde Q1 seja maior que 2
+novo &lt;- subset(mydata,Q1&gt;2)
+
+summary(novo)</code></pre>
+<pre><code>##        Q1             Q2              Q4             Age       
+##  Min.   :3.00   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:4.00   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:1.000  
+##  Median :6.00   Median :4.000   Median :4.000   Median :2.000  
+##  Mean   :4.98   Mean   :3.701   Mean   :3.698   Mean   :1.918  
+##  3rd Qu.:6.00   3rd Qu.:5.000   3rd Qu.:5.000   3rd Qu.:3.000  
+##  Max.   :6.00   Max.   :6.000   Max.   :6.000   Max.   :3.000  
+##                 NA&#39;s   :1       NA&#39;s   :2</code></pre>
+<p>Esta seleção condicional pode ser simplificada, como o exemplo anterior, ou mesmo ter diversos requisitos:</p>
+<pre class="r"><code>#seleção com AND de entradas (com OR é a mesma ideia)
+restrito &lt;- subset(mydata,Age &gt;=3 &amp; Q1 &gt; 2)
+
+summary(restrito)</code></pre>
+<pre><code>##        Q1              Q2              Q4             Age   
+##  Min.   :3.000   Min.   :1.000   Min.   :1.000   Min.   :3  
+##  1st Qu.:4.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:3  
+##  Median :6.000   Median :4.000   Median :4.000   Median :3  
+##  Mean   :5.034   Mean   :3.724   Mean   :3.786   Mean   :3  
+##  3rd Qu.:6.000   3rd Qu.:5.000   3rd Qu.:5.000   3rd Qu.:3  
+##  Max.   :6.000   Max.   :6.000   Max.   :6.000   Max.   :3  
+##                                  NA&#39;s   :1</code></pre>
+<p>Por fim, valores faltantes também podem ser filtrados e deixados de fora, levando-se em consideração todo o data frame ou apenas uma das colunas:</p>
+<pre class="r"><code>#salvando apenas resultados não vazios (baseando-se em Q4)
+significativo &lt;- subset(mydata,!is.na(Q4))
+
+summary(significativo)</code></pre>
+<pre><code>##        Q1             Q2              Q4             Age       
+##  Min.   :3.00   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:4.00   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:1.000  
+##  Median :6.00   Median :4.000   Median :4.000   Median :2.000  
+##  Mean   :4.99   Mean   :3.701   Mean   :3.704   Mean   :1.908  
+##  3rd Qu.:6.00   3rd Qu.:5.000   3rd Qu.:5.000   3rd Qu.:3.000  
+##  Max.   :6.00   Max.   :6.000   Max.   :6.000   Max.   :3.000  
+##  NA&#39;s   :2      NA&#39;s   :1</code></pre>
+<pre class="r"><code>#criando dataset sem valores faltantes a partir de um já existente
+mydata1 &lt;- na.omit(mydata)
+
+summary(mydata1)</code></pre>
+<pre><code>##        Q1              Q2              Q4             Age       
+##  Min.   :3.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:4.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:1.000  
+##  Median :6.000   Median :4.000   Median :4.000   Median :2.000  
+##  Mean   :4.979   Mean   :3.716   Mean   :3.695   Mean   :1.916  
+##  3rd Qu.:6.000   3rd Qu.:5.000   3rd Qu.:5.000   3rd Qu.:3.000  
+##  Max.   :6.000   Max.   :6.000   Max.   :6.000   Max.   :3.000</code></pre>
+</div>
+<div id="ordenacao-e-juncao" class="section level2">
+<h2>Ordenação e junção</h2>
+<p>Além de selecionar e observar, é possível operar modificando o data frame por intermédio de reordenação da posição das entradas e da junção de dois ou mais data frames. Como primeiro exemplo, o data frame <code>mydata</code> será reordenado levando-se em consideração uma de suas variáveis:</p>
+<pre class="r"><code>#reordenando e salvando em outro data frame, a partir da variável Q1
+ordered &lt;- mydata[order(mydata$Q1),]
+
+head(ordered)</code></pre>
+<pre><code>##    Q1 Q2 Q4 Age
+## 2   3  5  2   2
+## 20  3  5  5   1
+## 23  3  1 NA   1
+## 25  3  6  6   3
+## 28  3  4  2   2
+## 29  3  3  2   3</code></pre>
+<p>Essa reordenação também pode ser feita levando-se em consideração mais de uma variável ao mesmo tempo:</p>
+<pre class="r"><code>#reordenação do data frame ascendente por age e descendente por Q4
+ordered2 &lt;- mydata[order(mydata$Age,-mydata$Q4),]
+
+head(ordered2)</code></pre>
+<pre><code>##    Q1 Q2 Q4 Age
+## 7   5  3  6   1
+## 35  6  1  6   1
+## 42  5  5  6   1
+## 80 NA  1  6   1
+## 82  6  6  6   1
+## 12  4  6  5   1</code></pre>
+<p>A junção pode ocorrer de duas formas: por uma variável específica (logo, os data frames são postos um acima do outro) ou lado a lado. No primeiro caso:</p>
+<pre class="r"><code>#unindo dois datasets por uma chave primária Q4
+mydatatotal &lt;- merge(mydata1,mydata,by=c(&quot;Q4&quot;))
+
+summary(mydatatotal)</code></pre>
+<pre><code>##        Q4             Q1.x            Q2.x           Age.x      
+##  Min.   :1.000   Min.   :3.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:3.000   1st Qu.:4.000   1st Qu.:2.000   1st Qu.:1.000  
+##  Median :4.000   Median :6.000   Median :4.000   Median :2.000  
+##  Mean   :3.902   Mean   :5.006   Mean   :3.689   Mean   :1.915  
+##  3rd Qu.:5.000   3rd Qu.:6.000   3rd Qu.:5.000   3rd Qu.:3.000  
+##  Max.   :6.000   Max.   :6.000   Max.   :6.000   Max.   :3.000  
+##                                                                 
+##       Q1.y            Q2.y           Age.y     
+##  Min.   :3.000   Min.   :1.000   Min.   :1.00  
+##  1st Qu.:4.000   1st Qu.:2.000   1st Qu.:1.00  
+##  Median :6.000   Median :4.000   Median :2.00  
+##  Mean   :5.017   Mean   :3.676   Mean   :1.91  
+##  3rd Qu.:6.000   3rd Qu.:5.000   3rd Qu.:3.00  
+##  Max.   :6.000   Max.   :6.000   Max.   :3.00  
+##  NA&#39;s   :25      NA&#39;s   :17</code></pre>
+<pre class="r"><code>#unindo dois data frames um abaixo do outro, sem chave primária
+longo &lt;- rbind(mydata,ordered)
+
+summary(longo)</code></pre>
+<pre><code>##        Q1             Q2              Q4             Age      
+##  Min.   :3.00   Min.   :1.000   Min.   :1.000   Min.   :1.00  
+##  1st Qu.:4.00   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:1.00  
+##  Median :6.00   Median :4.000   Median :4.000   Median :2.00  
+##  Mean   :4.98   Mean   :3.687   Mean   :3.704   Mean   :1.91  
+##  3rd Qu.:6.00   3rd Qu.:5.000   3rd Qu.:5.000   3rd Qu.:3.00  
+##  Max.   :6.00   Max.   :6.000   Max.   :6.000   Max.   :3.00  
+##  NA&#39;s   :4      NA&#39;s   :2       NA&#39;s   :4</code></pre>
+<p>E no segundo caso:</p>
+<pre class="r"><code>#unindo dois datasets lado a lado
+amplo &lt;- cbind(mydata1,mydata1)
+
+head(amplo)</code></pre>
+<pre><code>##   Q1 Q2 Q4 Age Q1 Q2 Q4 Age
+## 1  6  6  2   3  6  6  2   3
+## 2  3  5  2   2  3  5  2   2
+## 3  4  5  4   2  4  5  4   2
+## 4  6  1  4   2  6  1  4   2
+## 5  5  6  6   2  5  6  6   2
+## 7  5  3  6   1  5  3  6   1</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
