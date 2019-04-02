@@ -5,19 +5,17 @@ navbar:
     - 
       href: index.html
       text: Home
-    - menu:
-        - text: "R"
-        - text: "Basics"
-          href: Rbasics.html
-        - text: "Projects"
-          href: Rprojects.html
+    - 
+      menu: 
+        - 
+          href: RBasics.html
+          text: Basics
+        - 
+          href: RProjects.html
+          text: Projects
     - 
       href: Links.html
       text: Links
   title: "Dallas Ferraz"
 output_dir: docs
-right: 
-  - 
-    href: https://dallasferraz.github.io/docs/
-    icon: fa-github
 toc: true
