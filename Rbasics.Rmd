@@ -154,7 +154,7 @@ pie(hab$quantidade,main="Cidades",col=c(4:6),labels=NA)
 legend("bottomright",legend=hab$cidade,cex=1,fill=c(4:6))
 ```
 
-# ggplot
+## ggplot
 
 As funções nativas do R são muito versáteis e conseguem cobrir muitas necessidades de um analista de dados. Contudo, há também uma abordagem diferente, através do pacote `ggplot2`. Este pacote pode ser facilmente encontrado, instalado e carregado:
 
@@ -171,7 +171,7 @@ A vantagem desse pacote é que ele possibilita a construção dos gráficos em s
 
 A primeira camada é responsável pelo conteúdo dos dados, enquanto que a segunda diz respeito à primeira etapa de visualização (escala) do gráfico. A terceira descreve a geometria de como os dados serão apresentados, ao passo que a quarta camada possibilita a visualização de várias facetas diferentes do mesmo dataset. A quinta camada possibilita a análise estatística, a sexta delimita as regiões relevantes das coordenadas do gráfico e, por fim, a sétima camada apresenta o tema geral do trabalho. Todas essas etapas poderão ser vistas nos exemplos seguintes.
 
-##Histograma
+## Histograma
 
 Utilizaremos o dataset nativo `iris`, que contém informações sobre flores.
 
@@ -491,4 +491,222 @@ ggplot(data = dat, mapping = aes(x = x, y = y)) +
   geom_line()+
   geom_area(mapping = aes(x = ifelse(x>65 & x< 70 , x, 0)), fill = "red") +
   xlim(30, 80)
+```
+
+#Data frames
+
+##Disposições gerais
+
+Data frames são estruturas versáteis e com muitas funcionalidades em R. Possuem bastante semelhança com matrizes, com a diferença de que algumas funções, tanto nativas quanto de pacotes específicos, funcionam unicamente neles. Como exemplo, será criado um data frame de 5 colunas e 100 entradas, através da função nativa `data.frame()`:
+
+```{r}
+#criando um dataframe com valores aleatórios
+mydata = data.frame(Q1 = sample(1:6, 100, replace = TRUE),
+                    Q2 = sample(1:6, 100, replace = TRUE),
+                    Q3 = sample(1:6, 100, replace = TRUE),
+                    Q4 = sample(1:6, 100, replace = TRUE), 
+                    Age = sample(1:3, 100, replace = TRUE))
+```
+
+Distribuindo propositalmente valores faltantes no data frame:
+
+```{r echo=FALSE, message=FALSE}
+mydata[1,3] <- NA
+mydata[6,1] <- NA
+mydata[17,4] <- NA
+mydata[23,4] <- NA
+mydata[38,2] <- NA
+mydata[55,3] <- NA
+mydata[80,1] <- NA
+```
+
+
+Visualizando um breve resumo sobre o data frame:
+
+```{r}
+##breve resumo estatístico
+summary(mydata)
+```
+
+Também é possível visualizar colunas específicas, como a terceira coluna em questão:
+
+```{r}
+summary(mydata$Q3)
+```
+
+Outra informação possível de ser extraída é a quantidade de colunas e de entradas, caso não se saiba:
+
+```{r}
+##quantidade de entradas num data frame
+nrow(mydata)
+```
+
+```{r}
+##quantidade de variáveis num data frame
+ncol(mydata)
+```
+
+Ainda um outro tipo de informação que pode ser inferida do data frame é a sua estrutura de composição, através da função nativa `str()`. Esta função descreve o tipo de cada uma das variáveis:
+
+```{r}
+str(mydata)
+```
+
+Também é possível visualizar apenas as primeiras X entradas ou as últimas Y entradas de um data frame através das funções `head()` e `tail()`:
+
+```{r}
+#primeiras 5 entradas
+head(mydata, n=5)
+```
+
+```{r}
+#todas menos as 50 primeiras entradas
+tail(mydata, n=-50)
+```
+
+#Valores aleatórios
+
+Há diversas maneiras de se gerar e se selecionar valores aleatórios em um data frame. Utilizando a biblioteca `dplyr`, um analista ou um cientista de dados pode fazer uso de funções que aceleram esse processo, pois as funções nativas do R executariam a mesma tarefa com mais passos. Carregando-se a biblioteca:
+
+```{r echo=FALSE, message=FALSE}
+library(dplyr)
+```
+
+Selecionando valores aleatoriamente com a função `sample_n()` do pacote `dplyr`:
+
+```{r}
+#selecionando 11 entradas aleatoriamente
+sample_n(mydata,11)
+```
+
+Também é possível selecionar aleatoriamente através de percentuais, com a função `sample_frac()`:
+
+```{r}
+#selecionando 43% das entradas aleatoriamente
+sample_frac(mydata, 0.43)
+```
+
+#Valores não registrados e substituídos
+
+Por alguma razão, algumas entradas deixam de preencher valores para algumas das variáveis/colunas, seja por falta de atenção, ruído, ausência de valores em si, intenção etc. Com algumas funções no R, é possível ter uma visão sobre as condições de um data frame, em relação aos valores não registrados:
+
+```{r}
+#número de valores ausentes na coluna
+colSums(is.na(mydata))
+```
+
+```{r}
+#valores faltantes por entrada
+rowSums(is.na(mydata))
+```
+
+```{r}
+#número de valores ausentes em uma variável específica (nesse caso, na variável Q1)
+sum(is.na(mydata$Q1))
+```
+
+Há também a possibilidade de se substituir valores em entradas. Isso pode ser de interesse do analista ou do cientista de dados quando houver a necessidade de se preencher valores não registrados ou mesmo modificar a representação de um tipo de registro por algo mais significativo (por exemplo, em uma coluna que registre pronomes de tratamento, "senhor" e "Sr." representam, em algumas análises, a mesma informação. Neste caso, substituir ambos pela forma "SENHOR" seria ideal para a contagem padronizada de quantas entradas do determinado data frame utilizam este tipo de pronome de tratamento).
+
+```{r}
+#substituindo um valor específico do data frame (onde houver 1 ou 2 em Q1, vira 6)
+mydata$Q1[mydata$Q1==1|mydata$Q1==2] <- 6
+```
+
+Também há a possibilidade de exclusão de uma variável do data frame:
+
+```{r}
+#deletando uma coluna de um data frame (a terceira)
+mydata$Q3 <- NULL
+
+head(mydata)
+```
+
+#Seleção
+
+Filtrar e selecionar são duas atividades importantes para a análise dos dados presentes em um data frame. O resultado final pode ser apresentado apenas em console ou também guardado em um outro data frame. 
+
+```{r}
+#selecionar as oito primeiras entradas (todas as colunas)
+selecao <- mydata[1:8,]
+
+selecao
+```
+
+Também é possível fazer este procedimento utilizando-se de regras condicionais:
+
+```{r}
+#selecionar as entradas onde Q1 seja maior que 2
+novo <- subset(mydata,Q1>2)
+
+summary(novo)
+```
+
+Esta seleção condicional pode ser simplificada, como o exemplo anterior, ou mesmo ter diversos requisitos:
+
+```{r}
+#seleção com AND de entradas (com OR é a mesma ideia)
+restrito <- subset(mydata,Age >=3 & Q1 > 2)
+
+summary(restrito)
+```
+
+Por fim, valores faltantes também podem ser filtrados e deixados de fora, levando-se em consideração todo o data frame ou apenas uma das colunas:
+
+```{r}
+#salvando apenas resultados não vazios (baseando-se em Q4)
+significativo <- subset(mydata,!is.na(Q4))
+
+summary(significativo)
+```
+
+```{r}
+#criando dataset sem valores faltantes a partir de um já existente
+mydata1 <- na.omit(mydata)
+
+summary(mydata1)
+```
+
+#Ordenação e junção
+
+Além de selecionar e observar, é possível operar modificando o data frame por intermédio de reordenação da posição das entradas e da junção de dois ou mais data frames. Como primeiro exemplo, o data frame `mydata` será reordenado levando-se em consideração uma de suas variáveis:
+
+```{r}
+#reordenando e salvando em outro data frame, a partir da variável Q1
+ordered <- mydata[order(mydata$Q1),]
+
+head(ordered)
+```
+
+Essa reordenação também pode ser feita levando-se em consideração mais de uma variável ao mesmo tempo:
+
+```{r}
+#reordenação do data frame ascendente por age e descendente por Q4
+ordered2 <- mydata[order(mydata$Age,-mydata$Q4),]
+
+head(ordered2)
+```
+
+A junção pode ocorrer de duas formas: por uma variável específica (logo, os data frames são postos um acima do outro) ou lado a lado. No primeiro caso:
+
+```{r}
+#unindo dois datasets por uma chave primária Q4
+mydatatotal <- merge(mydata1,mydata,by=c("Q4"))
+
+summary(mydatatotal)
+```
+
+```{r}
+#unindo dois data frames um abaixo do outro, sem chave primária
+longo <- rbind(mydata,ordered)
+
+summary(longo)
+```
+
+E no segundo caso:
+
+```{r}
+#unindo dois datasets lado a lado
+amplo <- cbind(mydata1,mydata1)
+
+head(amplo)
 ```
