@@ -154,7 +154,7 @@ pie(hab$quantidade,main="Cidades",col=c(4:6),labels=NA)
 legend("bottomright",legend=hab$cidade,cex=1,fill=c(4:6))
 ```
 
-## ggplot
+# ggplot
 
 As funções nativas do R são muito versáteis e conseguem cobrir muitas necessidades de um analista de dados. Contudo, há também uma abordagem diferente, através do pacote `ggplot2`. Este pacote pode ser facilmente encontrado, instalado e carregado:
 
@@ -207,7 +207,7 @@ ggplot(data=iris,aes(x=Sepal.Length,color=Species,fill=Species)) +
 geom_histogram(color="black",bins=10)
 ```
 
-##Densidade
+## Densidade
 
 Também é possível visualizar a distribuição de densidade dos dados através da função `geom_density()`. No exemplo seguinte, continuaremos a observar a distribuição de densidade do tamanho das sépalas, porém em uma distribuição de densidade por espécies, em curvas de contorno preto e preenchimento de 70% das cores relacionadas às espécies. Também é possível editar as legendas e os títulos do gráfico, com a função `labs()`:
 
@@ -217,7 +217,7 @@ geom_density(color="black", alpha = 0.7) +
 labs(title="Curva de densidade",x="Tamanho das sépalas",y="Densidade")
 ```
 
-##Gráfico de barras
+## Gráfico de barras
 
 Para a análise com gráfico de barras, utilizaremos a função `geom_bar()`. Exibiremos o dataset `mpg`, que contém dados referentes a vários tipos de carros.
 
@@ -284,7 +284,7 @@ ggplot(data=mpg,aes(x=class,y=displ,fill=drv)) +
   geom_bar(stat="identity", position=position_dodge())
 ```
 
-##Boxplot
+## Boxplot
 
 A exibição de dados em forma de boxplot segue a mesma lógica das exibições anteriores de histograma e de gráfico de barras: Utiliza-se primeiramente o `ggplot()` para a definição das primeiras camadas e a função `geom_boxplot()` para a escolha do tipo de gráfico. Para o dataset nativo `mtcars` temos:
 
@@ -308,7 +308,7 @@ xlab("cilindradas") + ylab("disponibilidade")
 
 ```
 
-##Gráfico de pontos
+## Gráfico de pontos
 
 Utilizaremos a base de dados `iris` para a exibição do gráfico de pontos. Este tipo de gráfico é mais utilizado quando há uma quantidade consideravelmente grande de dados e deseja-se saber se há uma correlação (e sua intensidade) entre as variáveis. No pacote `ggplot`, os gráficos de pontos estão disponíveis através da função `geom_point()`.
 
@@ -386,7 +386,7 @@ grafico + scale_color_gradient(low = "blue",high = "red") +
 scale_color_continuous( breaks = seq(50,350,75))
 ```
 
-##Faceting
+## Faceting
 
 Faceting é o recurso de apresentar diversos gráficos em uma única observação. Para a demonstração do próximo faceting, exibiremos o seguinte:
 
@@ -401,7 +401,7 @@ ggplot(data=mtcars,aes(x=mpg,y=disp)) + geom_point() +
 facet_wrap(~carb + am, labeller="label_both")
 ```
 
-##Exemplo de exploração de dados
+## Exemplo de exploração de dados
 
 Criaremos agora um dataset chamado `populacao` contendo 400 entradas para homens e mulheres, com médias de pesos entre as pessoas:
 
@@ -493,9 +493,9 @@ ggplot(data = dat, mapping = aes(x = x, y = y)) +
   xlim(30, 80)
 ```
 
-#Data frames
+# Data frames
 
-##Disposições gerais
+## Disposições gerais
 
 Data frames são estruturas versáteis e com muitas funcionalidades em R. Possuem bastante semelhança com matrizes, com a diferença de que algumas funções, tanto nativas quanto de pacotes específicos, funcionam unicamente neles. Como exemplo, será criado um data frame de 5 colunas e 100 entradas, através da função nativa `data.frame()`:
 
@@ -564,7 +564,7 @@ head(mydata, n=5)
 tail(mydata, n=-50)
 ```
 
-#Valores aleatórios
+## Valores aleatórios
 
 Há diversas maneiras de se gerar e se selecionar valores aleatórios em um data frame. Utilizando a biblioteca `dplyr`, um analista ou um cientista de dados pode fazer uso de funções que aceleram esse processo, pois as funções nativas do R executariam a mesma tarefa com mais passos. Carregando-se a biblioteca:
 
@@ -586,7 +586,7 @@ Também é possível selecionar aleatoriamente através de percentuais, com a fu
 sample_frac(mydata, 0.43)
 ```
 
-#Valores não registrados e substituídos
+## Valores não registrados e substituídos
 
 Por alguma razão, algumas entradas deixam de preencher valores para algumas das variáveis/colunas, seja por falta de atenção, ruído, ausência de valores em si, intenção etc. Com algumas funções no R, é possível ter uma visão sobre as condições de um data frame, em relação aos valores não registrados:
 
@@ -621,7 +621,7 @@ mydata$Q3 <- NULL
 head(mydata)
 ```
 
-#Seleção
+## Seleção
 
 Filtrar e selecionar são duas atividades importantes para a análise dos dados presentes em um data frame. O resultado final pode ser apresentado apenas em console ou também guardado em um outro data frame. 
 
@@ -666,7 +666,7 @@ mydata1 <- na.omit(mydata)
 summary(mydata1)
 ```
 
-#Ordenação e junção
+## Ordenação e junção
 
 Além de selecionar e observar, é possível operar modificando o data frame por intermédio de reordenação da posição das entradas e da junção de dois ou mais data frames. Como primeiro exemplo, o data frame `mydata` será reordenado levando-se em consideração uma de suas variáveis:
 

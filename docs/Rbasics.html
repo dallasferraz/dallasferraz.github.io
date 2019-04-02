@@ -514,14 +514,14 @@ pie(hab$quantidade,main=&quot;Cidades&quot;,col=c(4:6),labels=NA)
 legend(&quot;bottomright&quot;,legend=hab$cidade,cex=1,fill=c(4:6))</code></pre>
 <p><img src="Rbasics_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
-<div id="ggplot" class="section level2">
-<h2>ggplot</h2>
+</div>
+<div id="ggplot" class="section level1">
+<h1>ggplot</h1>
 <p>As funções nativas do R são muito versáteis e conseguem cobrir muitas necessidades de um analista de dados. Contudo, há também uma abordagem diferente, através do pacote <code>ggplot2</code>. Este pacote pode ser facilmente encontrado, instalado e carregado:</p>
 <pre class="r"><code>install.packages(&quot;ggplot2&quot;)
 library(ggplot2)</code></pre>
 <p>A vantagem desse pacote é que ele possibilita a construção dos gráficos em sete diferentes camadas, com dependência entre elas: a segunda só pode ser construida se existir a primeira, a terceira só pode ser construida se existir a segunda, e assim por diante.</p>
 <p>A primeira camada é responsável pelo conteúdo dos dados, enquanto que a segunda diz respeito à primeira etapa de visualização (escala) do gráfico. A terceira descreve a geometria de como os dados serão apresentados, ao passo que a quarta camada possibilita a visualização de várias facetas diferentes do mesmo dataset. A quinta camada possibilita a análise estatística, a sexta delimita as regiões relevantes das coordenadas do gráfico e, por fim, a sétima camada apresenta o tema geral do trabalho. Todas essas etapas poderão ser vistas nos exemplos seguintes.</p>
-</div>
 <div id="histograma" class="section level2">
 <h2>Histograma</h2>
 <p>Utilizaremos o dataset nativo <code>iris</code>, que contém informações sobre flores.</p>
@@ -960,9 +960,8 @@ tail(mydata, n=-50)</code></pre>
 ## 99   1  1  1  4   1
 ## 100  1  4  4  4   3</code></pre>
 </div>
-</div>
-<div id="valores-aleatorios" class="section level1">
-<h1>Valores aleatórios</h1>
+<div id="valores-aleatorios" class="section level2">
+<h2>Valores aleatórios</h2>
 <p>Há diversas maneiras de se gerar e se selecionar valores aleatórios em um data frame. Utilizando a biblioteca <code>dplyr</code>, um analista ou um cientista de dados pode fazer uso de funções que aceleram esse processo, pois as funções nativas do R executariam a mesma tarefa com mais passos. Carregando-se a biblioteca:</p>
 <p>Selecionando valores aleatoriamente com a função <code>sample_n()</code> do pacote <code>dplyr</code>:</p>
 <pre class="r"><code>#selecionando 11 entradas aleatoriamente
@@ -1027,8 +1026,8 @@ sample_frac(mydata, 0.43)</code></pre>
 ## 75  4  1  6  4   2
 ## 42  5  5  3  6   1</code></pre>
 </div>
-<div id="valores-nao-registrados-e-substituidos" class="section level1">
-<h1>Valores não registrados e substituídos</h1>
+<div id="valores-nao-registrados-e-substituidos" class="section level2">
+<h2>Valores não registrados e substituídos</h2>
 <p>Por alguma razão, algumas entradas deixam de preencher valores para algumas das variáveis/colunas, seja por falta de atenção, ruído, ausência de valores em si, intenção etc. Com algumas funções no R, é possível ter uma visão sobre as condições de um data frame, em relação aos valores não registrados:</p>
 <pre class="r"><code>#número de valores ausentes na coluna
 colSums(is.na(mydata))</code></pre>
@@ -1058,8 +1057,8 @@ head(mydata)</code></pre>
 ## 5  5  6  6   2
 ## 6 NA  5  2   2</code></pre>
 </div>
-<div id="selecao" class="section level1">
-<h1>Seleção</h1>
+<div id="selecao" class="section level2">
+<h2>Seleção</h2>
 <p>Filtrar e selecionar são duas atividades importantes para a análise dos dados presentes em um data frame. O resultado final pode ser apresentado apenas em console ou também guardado em um outro data frame.</p>
 <pre class="r"><code>#selecionar as oito primeiras entradas (todas as colunas)
 selecao &lt;- mydata[1:8,]
@@ -1125,8 +1124,8 @@ summary(mydata1)</code></pre>
 ##  3rd Qu.:6.000   3rd Qu.:5.000   3rd Qu.:5.000   3rd Qu.:3.000  
 ##  Max.   :6.000   Max.   :6.000   Max.   :6.000   Max.   :3.000</code></pre>
 </div>
-<div id="ordenacao-e-juncao" class="section level1">
-<h1>Ordenação e junção</h1>
+<div id="ordenacao-e-juncao" class="section level2">
+<h2>Ordenação e junção</h2>
 <p>Além de selecionar e observar, é possível operar modificando o data frame por intermédio de reordenação da posição das entradas e da junção de dois ou mais data frames. Como primeiro exemplo, o data frame <code>mydata</code> será reordenado levando-se em consideração uma de suas variáveis:</p>
 <pre class="r"><code>#reordenando e salvando em outro data frame, a partir da variável Q1
 ordered &lt;- mydata[order(mydata$Q1),]
@@ -1196,6 +1195,7 @@ head(amplo)</code></pre>
 ## 4  6  1  4   2  6  1  4   2
 ## 5  5  6  6   2  5  6  6   2
 ## 7  5  3  6   1  5  3  6   1</code></pre>
+</div>
 </div>
 
 
