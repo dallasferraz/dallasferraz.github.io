@@ -8,13 +8,12 @@ navbar:
     - 
       menu: 
         - 
-          text: R
-        - 
           href: Rbasics.html
           text: Basics
         - 
           href: Rprojects.html
           text: Projects
+      text: R
     - 
       href: Links.html
       text: Links
